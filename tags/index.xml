@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Benjamin&#39;s Blog</title>
+    <link>/www.benjamin-blog.com/tags/</link>
+    <description>Recent content in Tags on Benjamin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ca</language>
+    <lastBuildDate>Sat, 20 Jun 2015 14:02:37 +0200</lastBuildDate>
+    
+	<atom:link href="/www.benjamin-blog.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Learnr</title>
+      <link>/www.benjamin-blog.com/tags/learnr/</link>
+      <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/tags/learnr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Project_euler</title>
+      <link>/www.benjamin-blog.com/tags/project_euler/</link>
+      <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/tags/project_euler/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>/www.benjamin-blog.com/tags/python/</link>
+      <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/www.benjamin-blog.com/tags/r/</link>
+      <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidyverse</title>
+      <link>/www.benjamin-blog.com/tags/tidyverse/</link>
+      <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/tags/tidyverse/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

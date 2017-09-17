@@ -1,0 +1,206 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Project Euler Solutions in R and Python &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/www.benjamin-blog.com/images/favicon.ico">
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/style.css">
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/font-awesome.min.css">
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/www.benjamin-blog.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/www.benjamin-blog.com/post'>Archive</a>
+	<a href='/www.benjamin-blog.com/tags'>Tags</a>
+	<a href='/www.benjamin-blog.com/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Project Euler Solutions in R and Python
+                    </h1>
+                    <h2 class="headline">
+                    Sep 16, 2017 18:29
+                    · 523 words
+                    · 3 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/www.benjamin-blog.com/tags/r">R</a>
+                          
+                              <a href="/www.benjamin-blog.com/tags/python">Python</a>
+                          
+                              <a href="/www.benjamin-blog.com/tags/project_euler">Project_Euler</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>
+Mathedemo
+</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<p>The <a href="http://r.prevos.net/category/project-euler/"><em>Devil is in the Data</em></a> website presents solutions to <a href="https://projecteuler.net/">Project Euler</a> problems in R. Project Euler (named after Swiss mathematician Leonhard Euler) is a competition with computational problems. Participants solve these problems using computer code, using many different languages.</p>
+<p>This blog was inspired by <em>Devil is in the Data</em> and tries to provide detailed solution in both R and Python to a Euler problem per week. My aim is to complete as many problems as I can. I don’t claim to be an expert in R and Python. Please let me know if you have an improved alternative solutions.</p>
+<div id="euler-problem-1-multiples-of-3-or-5" class="section level2">
+<h2>Euler Problem 1: Multiples of 3 or 5</h2>
+<p>If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.</p>
+<div id="solutions" class="section level3">
+<h3>Solutions</h3>
+<p>There are several ways to solve this problem in R and Python:</p>
+<div id="brute-force" class="section level4">
+<h4>1. Brute force</h4>
+<div id="brute-force-in-r" class="section level6">
+<h6>Brute force in R</h6>
+<pre class="r"><code>sum &lt;- 0
+
+for (i in 1:(1000 - 1)) {
+  if (i %% 3 == 0 | i %% 5 == 0) 
+    sum &lt;- sum + i
+}
+
+sum</code></pre>
+</div>
+<div id="brute-force-in-python" class="section level6">
+<h6>Brute force in Python</h6>
+<pre class="python"><code>sum = 0
+
+for i in range(1, 1000):
+    if i % 3 == 0 or i % 5 == 0:
+        sum += i
+
+print(sum)</code></pre>
+</div>
+</div>
+<div id="using-vector-arithmetic" class="section level4">
+<h4>2. Using vector arithmetic</h4>
+<div id="using-vector-arithmetic-in-r" class="section level6">
+<h6>Using vector arithmetic in R</h6>
+<pre class="r"><code>sum((1:(1000 - 1))[((1:(1000 - 1)) %% 3 == 0) | ((1:(1000 - 1)) %% 5 == 0)])</code></pre>
+</div>
+<div id="using-vector-arithmetic-in-python" class="section level6">
+<h6>Using vector arithmetic in Python</h6>
+<pre class="python"><code>import numpy as np
+
+a = np.array(range(1, 1000))
+print(sum(a[a % 3 == 0]) + sum(a[a % 5 == 0]) - sum(a[a % 15 == 0]))</code></pre>
+</div>
+</div>
+<div id="using-arithmetic-progression" class="section level4">
+<h4>3. Using arithmetic progression</h4>
+<p>Both brute-force and vector arithmetic solutions loop through all numbers and take much more time to process as the target increases. Arithmetic progression will significantly reduce the processing time in this problem.</p>
+<p>In high school we’ve learnt how to calculate the sum of arithmetic progression, where <span class="math inline">\(n\)</span> is the number of elements and <span class="math inline">\(a_1\)</span> is the smallest number and <span class="math inline">\(a_n\)</span> is largest one: <span class="math display">\[sum = \frac{n(a_1 + a_n)}{2}\]</span></p>
+<p>The sum of all natural numbers less than <span class="math inline">\(m\)</span> divisible by <span class="math inline">\(n\)</span> is actually the sum of the arithmetic progression that has a common difference of <span class="math inline">\(n\)</span>, the smallest number <span class="math inline">\(n\)</span> and the largest number <span class="math inline">\(p\)</span> which is biggest number less than <span class="math inline">\(m\)</span> divisible by <span class="math inline">\(n\)</span>: <span class="math display">\[p = n\lfloor \frac{m - 1}{n} \rfloor = n((m - 1) \backslash n)\]</span></p>
+<p>This arithmetic progression has <span class="math inline">\((m - 1) \bmod n\)</span> elements: <span class="math display">\[sum = ((m - 1) \backslash n)(\frac{n + p}{2}) = \frac{p}{n} \times (\frac{n + p}{2})\]</span></p>
+<div id="using-arithmetic-progression-in-r" class="section level6">
+<h6>Using arithmetic progression in R</h6>
+<pre class="r"><code>sum_ap &lt;- function(n, m) {
+  p &lt;- n * ((m - 1) %/% n)
+  sum &lt;- (p / n) * ((n + p) / 2)
+  sum
+}
+
+sum_ap(3, 1000) + sum_ap(5, 1000) - sum_ap(15, 1000)</code></pre>
+</div>
+<div id="using-arithmetic-progression-in-python" class="section level6">
+<h6>Using arithmetic progression in Python</h6>
+<pre class="python"><code>def sum_ap(n, m):
+    p = n * ((m - 1) // n)
+    sum = (p / n) * ((n + p) / 2)
+    return sum
+
+print(sum_ap(3, 1000) + sum_ap(5, 1000) - sum_ap(15, 1000))</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/www.benjamin-blog.com/js/jquery-2.2.4.min.js"></script>
+<script src="/www.benjamin-blog.com/js/main.js"></script>
+<script src="/www.benjamin-blog.com/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

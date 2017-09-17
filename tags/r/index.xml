@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Benjamin&#39;s Blog</title>
+    <link>/www.benjamin-blog.com/tags/r/</link>
+    <description>Recent content in R on Benjamin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ca</language>
+    <lastBuildDate>Sat, 16 Sep 2017 18:29:24 +0000</lastBuildDate>
+    
+	<atom:link href="/www.benjamin-blog.com/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Project Euler Solutions in R and Python</title>
+      <link>/www.benjamin-blog.com/post/euler_problem_1/</link>
+      <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/post/euler_problem_1/</guid>
+      <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    The Devil is in the Data website presents solutions to Project Euler problems in R. Project Euler (named after Swiss mathematician Leonhard Euler) is a competition with computational problems. Participants solve these problems using computer code, using many different languages.
+This blog was inspired by Devil is in the Data and tries to provide detailed solution in both R and Python to a Euler problem per week.</description>
+    </item>
+    
+    <item>
+      <title>Using learnr to build an interactive R tutorial</title>
+      <link>/www.benjamin-blog.com/post/tidyverse_tutorial_on_learnr/</link>
+      <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
+      
+      <guid>/www.benjamin-blog.com/post/tidyverse_tutorial_on_learnr/</guid>
+      <description>In June 2017, I joined a major Canadian bank as a data analyst. I was suprised that most of my colleagues didn’t use R or Python for their day-to-day data analysis. I’ve been convincing my colleagues that R and Python are great tools for data analysis and trying to give an introduction on these two programming languages.
+Last week I saw a post about learnr package on RStudio Developer Blog and I believed this package would be a great tool to create an interactive R tutorial for my team.</description>
+    </item>
+    
+  </channel>
+</rss>

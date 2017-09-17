@@ -1,0 +1,146 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Using learnr to build an interactive R tutorial &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/www.benjamin-blog.com/images/favicon.ico">
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/style.css">
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/www.benjamin-blog.com/css/font-awesome.min.css">
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/www.benjamin-blog.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/www.benjamin-blog.com/post'>Archive</a>
+	<a href='/www.benjamin-blog.com/tags'>Tags</a>
+	<a href='/www.benjamin-blog.com/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Using learnr to build an interactive R tutorial
+                    </h1>
+                    <h2 class="headline">
+                    Sep 16, 2017 16:25
+                    · 297 words
+                    · 2 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/www.benjamin-blog.com/tags/r">R</a>
+                          
+                              <a href="/www.benjamin-blog.com/tags/tidyverse">tidyverse</a>
+                          
+                              <a href="/www.benjamin-blog.com/tags/learnr">learnr</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <p>In June 2017, I joined a major Canadian bank as a data analyst. I was suprised that most of my colleagues didn’t use R or Python for their day-to-day data analysis. I’ve been convincing my colleagues that R and Python are great tools for data analysis and trying to give an introduction on these two programming languages.</p>
+<p>Last week I saw a post about <a href="https://rstudio.github.io/learnr/"><strong>learnr</strong></a> package on RStudio <a href="https://blog.rstudio.com/">Developer Blog</a> and I believed this package would be a great tool to create an interactive R tutorial for my team. Then in the following weekend, I created a little <a href="https://benjaminchanczh.shinyapps.io/R_tidyverse_tutorial/">R tidyverse tutorial</a> based on <strong>learnr</strong> and shared it with my teammates on <a href="http://www.shinyapps.io/">shinyapp.io</a>.</p>
+<div id="building-interactive-tutorials-for-r" class="section level2">
+<h2>Building interactive tutorials for R</h2>
+<p>The <strong>learnr</strong> package makes it easy to turn any R Markdown document into an interactive tutorial. My tutorial is actually a R Markdown file including following content:</p>
+<div id="exercise" class="section level4">
+<h4>1. Exercise</h4>
+<p>Exercises in <strong>learnr</strong> are interactive R code chunks that allow readers to directly execute R code and see it’s results:</p>
+<p><img src="https://rstudio.github.io/learnr/images/exercises.png" alt="Exercise examples" /> Exercises can include hints or solutions as well as custom checking code to provide feedback on user answers.</p>
+</div>
+<div id="questions" class="section level4">
+<h4>2. Questions</h4>
+<p>One or more multiple-choice quiz questions can be included within a tutorial to help verify that readers understand the concepts presented. Questions can either have a single or multiple correct answers. You can also add answer-specific correct/incorrect messages.</p>
+<div class="figure">
+<img src="https://rstudio.github.io/learnr/images/questions-message.png" alt="Quetion example" />
+<p class="caption">Quetion example</p>
+</div>
+</div>
+<div id="video" class="section level4">
+<h4>3. Video</h4>
+<p>Sometimes you may think it’s easier to explain a complex concept by video than words. <strong>learnr</strong> allows you to include video published on either <a href="https://www.youtube.com/">Youtube</a> or <a href="https://vimeo.com/">Vimeo</a> within a tutorial using the standard markdown image syntax.</p>
+</div>
+<div id="publishing" class="section level4">
+<h4>4. Publishing</h4>
+<p>Tutorials can be published all of the same ways that Shiny applications can, including running locally on an end-user’s machine or running on a Shiny Server or hosting service like <a href="http://www.shinyapps.io/">shinyapp.io</a>.</p>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/www.benjamin-blog.com/js/jquery-2.2.4.min.js"></script>
+<script src="/www.benjamin-blog.com/js/main.js"></script>
+<script src="/www.benjamin-blog.com/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

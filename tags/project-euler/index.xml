@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project Euler on Benjamin&#39;s Blog</title>
+    <link>/tags/project-euler/</link>
+    <description>Recent content in Project Euler on Benjamin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 16 Sep 2017 16:25:50 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/project-euler/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Euler Problem 1</title>
+      <link>/post/euler_problem_1/</link>
+      <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
+      
+      <guid>/post/euler_problem_1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

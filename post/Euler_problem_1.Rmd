@@ -1,0 +1,110 @@
+---
+title: "Project Euler Solutions in R and Python"
+author: "Benjamin Chan"
+date: 2017-09-16 18:29:24
+categories: ["Project_Euler"]
+tags: ["R", "Python", "Project_Euler"]
+description: "Euler Problem 1: Multiples of 3 or 5"
+---
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Mathedemo</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+The [*Devil is in the Data*](http://r.prevos.net/category/project-euler/) website presents solutions to [Project Euler](https://projecteuler.net/) problems in R. Project Euler (named after Swiss mathematician Leonhard Euler) is a competition with computational problems. Participants solve these problems using computer code, using many different languages.
+
+This blog was inspired by *Devil is in the Data* and tries to provide detailed solution in both R and Python to a Euler problem per week. My aim is to complete as many problems as I can. I don't claim to be an expert in R and Python. Please let me know if you have an improved alternative solutions.
+
+## Euler Problem 1: Multiples of 3 or 5
+
+If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
+
+### Solutions
+
+There are several ways to solve this problem in R and Python:
+
+#### 1. Brute force
+###### Brute force in R
+```{r}
+sum <- 0
+
+for (i in 1:(1000 - 1)) {
+  if (i %% 3 == 0 | i %% 5 == 0) 
+    sum <- sum + i
+}
+
+sum
+```
+
+###### Brute force in Python
+```{python}
+sum = 0
+
+for i in range(1, 1000):
+    if i % 3 == 0 or i % 5 == 0:
+        sum += i
+
+print(sum)
+```
+
+#### 2. Using vector arithmetic
+###### Using vector arithmetic in R
+```{r}
+sum((1:(1000 - 1))[((1:(1000 - 1)) %% 3 == 0) | ((1:(1000 - 1)) %% 5 == 0)])
+```
+
+###### Using vector arithmetic in Python
+```{python}
+import numpy as np
+
+a = np.array(range(1, 1000))
+print(sum(a[a % 3 == 0]) + sum(a[a % 5 == 0]) - sum(a[a % 15 == 0]))
+```
+
+#### 3. Using arithmetic progression
+
+Both brute-force and vector arithmetic solutions loop through all numbers and take much more time to process as the target increases. Arithmetic progression will significantly reduce the processing time in this problem.
+
+In high school we've learnt how to calculate the sum of arithmetic progression, where $n$ is the number of elements and $a_1$ is the smallest number and $a_n$ is largest one:
+$$sum = \frac{n(a_1 + a_n)}{2}$$
+
+The sum of all natural numbers less than $m$ divisible by $n$ is actually the sum of the arithmetic progression that has a common difference of $n$, the smallest number $n$ and the largest number $p$ which is biggest number less than $m$ divisible by $n$:
+$$p = n\lfloor \frac{m - 1}{n} \rfloor = n((m - 1) \backslash n)$$
+
+This arithmetic progression has $(m - 1) \bmod n$ elements:
+$$sum = ((m - 1) \backslash n)(\frac{n + p}{2}) = \frac{p}{n} \times (\frac{n + p}{2})$$
+
+###### Using arithmetic progression in R
+```{r}
+sum_ap <- function(n, m) {
+  p <- n * ((m - 1) %/% n)
+  sum <- (p / n) * ((n + p) / 2)
+  sum
+}
+
+sum_ap(3, 1000) + sum_ap(5, 1000) - sum_ap(15, 1000)
+```
+
+###### Using arithmetic progression in Python
+```{python}
+def sum_ap(n, m):
+    p = n * ((m - 1) // n)
+    sum = (p / n) * ((n + p) / 2)
+    return sum
+
+print(sum_ap(3, 1000) + sum_ap(5, 1000) - sum_ap(15, 1000))
+```
+
+
