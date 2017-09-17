@@ -81,10 +81,10 @@ In high school we've learnt how to calculate the sum of arithmetic progression, 
 $$sum = \frac{n(a_1 + a_n)}{2}$$
 
 The sum of all natural numbers less than $m$ divisible by $n$ is actually the sum of the arithmetic progression that has a common difference of $n$, the smallest number $n$ and the largest number $p$ which is biggest number less than $m$ divisible by $n$:
-$$p = n\lfloor \frac{m - 1}{n} \rfloor = n((m - 1) \backslash n)$$
+$$\begin{align} p & = n\lfloor\frac{m - 1}{n}\rfloor \\ & = n((m - 1) \backslash n) \end{align}$$
 
-This arithmetic progression has $(m - 1) \bmod n$ elements:
-$$sum = ((m - 1) \backslash n)(\frac{n + p}{2}) = \frac{p}{n} \times (\frac{n + p}{2})$$
+This arithmetic progression has $(m - 1) \backslash n$ elements:
+$$\begin{align} sum & = ((m - 1) \backslash n)(\frac{n + p}{2}) \\ & = \frac{p}{n} \times (\frac{n + p}{2}) \end{align}$$
 
 ###### Using arithmetic progression in R
 ```{r}
