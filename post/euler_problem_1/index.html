@@ -44,7 +44,7 @@
                     </h1>
                     <h2 class="headline">
                     Sep 16, 2017 18:29
-                    · 531 words
+                    · 530 words
                     · 3 minutes read
                       <span class="tags">
                       
@@ -127,7 +127,7 @@ print(sum(a[a % 3 == 0]) + sum(a[a % 5 == 0]) - sum(a[a % 15 == 0]))</code></pre
 <p>Both brute-force and vector arithmetic solutions loop through all numbers and take much more time to process as the target increases. Arithmetic progression will significantly reduce the processing time in this problem.</p>
 <p>In high school we’ve learnt how to calculate the sum of arithmetic progression, where <span class="math inline">\(n\)</span> is the number of elements and <span class="math inline">\(a_1\)</span> is the smallest number and <span class="math inline">\(a_n\)</span> is largest one: <span class="math display">\[sum = \frac{n(a_1 + a_n)}{2}\]</span></p>
 <p>The sum of all natural numbers less than <span class="math inline">\(m\)</span> divisible by <span class="math inline">\(n\)</span> is actually the sum of the arithmetic progression that has a common difference of <span class="math inline">\(n\)</span>, the smallest number <span class="math inline">\(n\)</span> and the largest number <span class="math inline">\(p\)</span> which is biggest number less than <span class="math inline">\(m\)</span> divisible by <span class="math inline">\(n\)</span>: <span class="math display">\[\begin{align} p &amp; = n\lfloor\frac{m - 1}{n}\rfloor \\ &amp; = n((m - 1) \backslash n) \end{align}\]</span></p>
-<p>This arithmetic progression has <span class="math inline">\((m - 1) \backslash n\)</span> elements: <span class="math display">\[\begin{align} sum &amp; = ((m - 1) \backslash n)(\frac{n + p}{2}) \\ &amp; = \frac{p}{n} \times (\frac{n + p}{2}) \end{align}\]</span></p>
+<p>This arithmetic progression has <span class="math inline">\((m - 1) \backslash n\)</span> elements: <span class="math display">\[\begin{align} sum &amp; = ((m - 1) \backslash n)(\frac{n + p}{2}) \\ &amp; = \frac{p}{n} (\frac{n + p}{2}) \end{align}\]</span></p>
 <div id="using-arithmetic-progression-in-r" class="section level6">
 <h6>Using arithmetic progression in R</h6>
 <pre class="r"><code>sum_ap &lt;- function(n, m) {

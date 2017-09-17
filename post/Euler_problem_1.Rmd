@@ -84,7 +84,7 @@ The sum of all natural numbers less than $m$ divisible by $n$ is actually the su
 $$\begin{align} p & = n\lfloor\frac{m - 1}{n}\rfloor \\ & = n((m - 1) \backslash n) \end{align}$$
 
 This arithmetic progression has $(m - 1) \backslash n$ elements:
-$$\begin{align} sum & = ((m - 1) \backslash n)(\frac{n + p}{2}) \\ & = \frac{p}{n} \times (\frac{n + p}{2}) \end{align}$$
+$$\begin{align} sum & = ((m - 1) \backslash n)(\frac{n + p}{2}) \\ & = \frac{p}{n} (\frac{n + p}{2}) \end{align}$$
 
 ###### Using arithmetic progression in R
 ```{r}
