@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Benjamin&#39;s Blog</title>
-    <link>/www.benjamin-blog.com/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
     <lastBuildDate>Sat, 20 Jun 2015 14:02:37 +0200</lastBuildDate>
     
-	<atom:link href="/www.benjamin-blog.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Learnr</title>
-      <link>/www.benjamin-blog.com/tags/learnr/</link>
+      <link>/tags/learnr/</link>
       <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
       
-      <guid>/www.benjamin-blog.com/tags/learnr/</guid>
+      <guid>/tags/learnr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Project_euler</title>
-      <link>/www.benjamin-blog.com/tags/project_euler/</link>
+      <link>/tags/project_euler/</link>
       <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
       
-      <guid>/www.benjamin-blog.com/tags/project_euler/</guid>
+      <guid>/tags/project_euler/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>/www.benjamin-blog.com/tags/python/</link>
+      <link>/tags/python/</link>
       <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
       
-      <guid>/www.benjamin-blog.com/tags/python/</guid>
+      <guid>/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/www.benjamin-blog.com/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Sat, 16 Sep 2017 18:29:24 +0000</pubDate>
       
-      <guid>/www.benjamin-blog.com/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tidyverse</title>
-      <link>/www.benjamin-blog.com/tags/tidyverse/</link>
+      <link>/tags/tidyverse/</link>
       <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
       
-      <guid>/www.benjamin-blog.com/tags/tidyverse/</guid>
+      <guid>/tags/tidyverse/</guid>
       <description></description>
     </item>
     

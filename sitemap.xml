@@ -3,80 +3,80 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/www.benjamin-blog.com/post/euler_problem_1/</loc>
+    <loc>/post/euler_problem_1/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/post/tidyverse_tutorial_on_learnr/</loc>
+    <loc>/post/tidyverse_tutorial_on_learnr/</loc>
     <lastmod>2017-09-16T16:25:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2015-06-20T14:02:37+02:00</lastmod>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2015-06-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/</loc>
+    <loc>/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/learnr/</loc>
+    <loc>/tags/learnr/</loc>
     <lastmod>2017-09-16T16:25:50+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/project_euler/</loc>
+    <loc>/tags/project_euler/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/categories/project_euler/</loc>
+    <loc>/categories/project_euler/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/python/</loc>
+    <loc>/tags/python/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2017-09-16T18:29:24+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/categories/r/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2017-09-16T16:25:50+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/www.benjamin-blog.com/tags/tidyverse/</loc>
+    <loc>/tags/tidyverse/</loc>
     <lastmod>2017-09-16T16:25:50+00:00</lastmod>
     <priority>0</priority>
   </url>
