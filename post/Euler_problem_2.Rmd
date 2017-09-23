@@ -39,6 +39,7 @@ My solution to this problem is to generate a Fibonacci sequence with no value la
 ```{r}
 fibo_even_sum <- function(n) {
   fibo <- c(1, 2) # Initialize Fibonacci sequence
+  
   while (max(fibo) < n) {
     len <- length(fibo)
     fibo <- c(fibo, fibo[len] + fibo[len - 1]) # Expand the sequence

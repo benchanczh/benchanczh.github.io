@@ -51,13 +51,13 @@
   </url>
   
   <url>
-    <loc>/categories/project_euler/</loc>
+    <loc>/tags/project_euler/</loc>
     <lastmod>2017-09-23T12:01:46+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/project_euler/</loc>
+    <loc>/categories/project_euler/</loc>
     <lastmod>2017-09-23T12:01:46+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -69,14 +69,14 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2017-09-16T16:25:50+00:00</lastmod>
+    <loc>/tags/r/</loc>
+    <lastmod>2017-09-23T12:01:46+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2017-09-23T12:01:46+00:00</lastmod>
+    <loc>/categories/r/</loc>
+    <lastmod>2017-09-16T16:25:50+00:00</lastmod>
     <priority>0</priority>
   </url>
   

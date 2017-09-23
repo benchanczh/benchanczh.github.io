@@ -92,6 +92,7 @@ Mathedemo
 <h4>Solution in R</h4>
 <pre class="r"><code>fibo_even_sum &lt;- function(n) {
   fibo &lt;- c(1, 2) # Initialize Fibonacci sequence
+  
   while (max(fibo) &lt; n) {
     len &lt;- length(fibo)
     fibo &lt;- c(fibo, fibo[len] + fibo[len - 1]) # Expand the sequence
