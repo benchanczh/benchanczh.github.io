@@ -74,4 +74,4 @@ def fibo_even_sum(n):
 fibo_even_sum(4e+06)
 ```
 
-The if statement inside the function is to remove the last element in the sequence if it's larger than $n$. The sum will be incorrect without this if statement for some circumstances. Please try $n = 33$ without the if statement.
+The if statement inside the function removes the last element in the sequence if it's larger than $n$. The sum will be incorrect without this if statement for some circumstances. Please try $n = 33$ without the if statement.
