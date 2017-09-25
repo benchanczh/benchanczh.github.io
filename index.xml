@@ -6,10 +6,20 @@
     <description>Recent content on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
-    <lastBuildDate>Sat, 23 Sep 2017 12:01:46 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Sep 2017 18:56:02 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using Sieve of Eratosthenes to find prime numbers</title>
+      <link>/post/sieve_of_eratosthenes/</link>
+      <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
+      
+      <guid>/post/sieve_of_eratosthenes/</guid>
+      <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    We know a prime number is a natural number greater than 1 has no positive divisors other than 1 and itself. If Someone asks you, “What are all prime numbers less than 1 million?”, how can you answer the question?
+There are many algorithms to find all prime numbers up to any given limit. I’m going to cover the Sieve of Eratosthenes, a simple but powerful algorithm, in this article.</description>
+    </item>
     
     <item>
       <title>Euler Problem 2: Even Fibonacci numbers</title>

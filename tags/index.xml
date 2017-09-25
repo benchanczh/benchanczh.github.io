@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Algorithm</title>
+      <link>/tags/algorithm/</link>
+      <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
+      
+      <guid>/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Learnr</title>
       <link>/tags/learnr/</link>
       <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
@@ -32,7 +41,7 @@
     <item>
       <title>Python</title>
       <link>/tags/python/</link>
-      <pubDate>Sat, 23 Sep 2017 12:01:46 +0000</pubDate>
+      <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
       
       <guid>/tags/python/</guid>
       <description></description>
@@ -41,9 +50,18 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Sat, 23 Sep 2017 12:01:46 +0000</pubDate>
+      <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
       
       <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sieve of Eratosthenes</title>
+      <link>/tags/sieve-of-eratosthenes/</link>
+      <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
+      
+      <guid>/tags/sieve-of-eratosthenes/</guid>
       <description></description>
     </item>
     

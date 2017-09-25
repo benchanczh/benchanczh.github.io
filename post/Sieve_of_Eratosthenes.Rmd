@@ -1,0 +1,97 @@
+---
+author: "Benjamin Chan"
+title: "Using Sieve of Eratosthenes to find prime numbers"
+date: 2017-09-25 18:56:02
+categories: ["Algorithm"]
+tags: ["R", "Python", "Algorithm", "Sieve of Eratosthenes"]
+description: "The sieve of Eratosthenes is a simple, ancient algorithm for finding all prime numbers up to any given limit"
+---
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Mathedemo</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We know a prime number is a natural number greater than 1 has no positive divisors other than 1 and itself. If Someone asks you, "What are all prime numbers less than 1 million?", how can you answer the question?
+
+There are many algorithms to find all prime numbers up to any given limit. I'm going to cover the Sieve of Eratosthenes, a simple but powerful algorithm, in this article.
+
+## Sieve of Eratosthenes
+
+To find all the prime numbers less than or equal to a given integer n by Eratosthenes' method:
+
+1. Create a list of consecutive integers from $2$ through $n$ $(2, 3, 4, ..., n)$.
+
+2. Initially, let $p = 2$, the smallest prime number.
+
+3. Enumerate the multiples of $p$ by counting to $n$ from $p ^ 2$ in increments of $p$, and mark them in the list (these will be $p ^ 2, p ^ 2 + p, p ^ 2 + 2p, ...$; the $p$ itself should not be marked).
+
+4. Find the first number greater than $p$ in the list that is not marked. Let $p$ now equal this new number (which is the next prime), and repeat from step 3. If $p ^ 2$ is greater than $n$, stop.
+
+5. When the algorithm terminates, the numbers remaining not marked in the list are all the primes number not greater than $n$.
+
+### Pseudocode
+
+About algorithm can be expressed in pseudocode as below:
+
+```
+Input: an integer n > 1
+
+Let A be an array of Boolean value, indexed by integers 2 to n, initially all set to TRUE.
+
+for i = 2, 3, 4, ..., n ^ (1 / 2):
+  if A[i] is TRUE:
+    for j = i ^ 2, i ^ 2 + i, i ^ 2 + 2i, ..., n:
+      A[j] = FALSE
+
+Output: all i such that A[i] is TRUE.
+```
+
+Let's see below gif illustrating the process:
+
+![Sieve of Eratosthenes: algorithm steps for primes below 121](https://upload.wikimedia.org/wikipedia/commons/b/b9/Sieve_of_Eratosthenes_animation.gif)
+
+### Implement in R
+
+```{r}
+all_prime <- function(n) {
+  prime <- rep(TRUE, n)  # Intitialize a vector all set to TRUE
+  prime[1] <- FALSE  # Remove 1 from output
+  
+  for (i in 2:sqrt(n)) {
+    if (prime[i]) prime[seq(i ^ 2, n, i)] <- FALSE  # Mark FALSE if composite index.
+  }
+  
+  which(prime)  # Return indices of TRUE
+}
+
+# Example, find all prime numbers less or equal to 61
+all_prime(61)
+```
+
+### Implement in Python
+```{python}
+import math
+import numpy as np
+
+def all_prime(n):
+    prime = np.array([True] * (n + 1))  # Intitialize a vector all set to TRUE
+    prime[0] = prime[1] = False  # Remove 0 and 1 from output
+
+    for i in range(2, math.ceil(math.sqrt(n))):
+        if prime[i]:
+            prime[range(i ** 2, n, i)] = False  # Mark FALSE if composite index.
+
+    return np.where(prime == 1)  # Return indices of TRUE
+```

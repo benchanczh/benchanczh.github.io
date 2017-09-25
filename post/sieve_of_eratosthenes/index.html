@@ -1,0 +1,229 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Using Sieve of Eratosthenes to find prime numbers &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Benjamin&#39;s Blog" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/post'>Archive</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Using Sieve of Eratosthenes to find prime numbers
+                    </h1>
+                    <h2 class="headline">
+                    Sep 25, 2017 18:56
+                    · 478 words
+                    · 3 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/python">Python</a>
+                          
+                              <a href="/tags/algorithm">Algorithm</a>
+                          
+                              <a href="/tags/sieve-of-eratosthenes">Sieve of Eratosthenes</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>
+Mathedemo
+</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<p>We know a prime number is a natural number greater than 1 has no positive divisors other than 1 and itself. If Someone asks you, “What are all prime numbers less than 1 million?”, how can you answer the question?</p>
+<p>There are many algorithms to find all prime numbers up to any given limit. I’m going to cover the Sieve of Eratosthenes, a simple but powerful algorithm, in this article.</p>
+<div id="sieve-of-eratosthenes" class="section level2">
+<h2>Sieve of Eratosthenes</h2>
+<p>To find all the prime numbers less than or equal to a given integer n by Eratosthenes’ method:</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a list of consecutive integers from <span class="math inline">\(2\)</span> through <span class="math inline">\(n\)</span> <span class="math inline">\((2, 3, 4, ..., n)\)</span>.</p></li>
+<li><p>Initially, let <span class="math inline">\(p = 2\)</span>, the smallest prime number.</p></li>
+<li><p>Enumerate the multiples of <span class="math inline">\(p\)</span> by counting to <span class="math inline">\(n\)</span> from <span class="math inline">\(p ^ 2\)</span> in increments of <span class="math inline">\(p\)</span>, and mark them in the list (these will be <span class="math inline">\(p ^ 2, p ^ 2 + p, p ^ 2 + 2p, ...\)</span>; the <span class="math inline">\(p\)</span> itself should not be marked).</p></li>
+<li><p>Find the first number greater than <span class="math inline">\(p\)</span> in the list that is not marked. Let <span class="math inline">\(p\)</span> now equal this new number (which is the next prime), and repeat from step 3. If <span class="math inline">\(p ^ 2\)</span> is greater than <span class="math inline">\(n\)</span>, stop.</p></li>
+<li><p>When the algorithm terminates, the numbers remaining not marked in the list are all the primes number not greater than <span class="math inline">\(n\)</span>.</p></li>
+</ol>
+<div id="pseudocode" class="section level3">
+<h3>Pseudocode</h3>
+<p>About algorithm can be expressed in pseudocode as below:</p>
+<pre><code>Input: an integer n &gt; 1
+
+Let A be an array of Boolean value, indexed by integers 2 to n, initially all set to TRUE.
+
+for i = 2, 3, 4, ..., n ^ (1 / 2):
+  if A[i] is TRUE:
+    for j = i ^ 2, i ^ 2 + i, i ^ 2 + 2i, ..., n:
+      A[j] = FALSE
+
+Output: all i such that A[i] is TRUE.</code></pre>
+<p>Let’s see below gif illustrating the process:</p>
+<div class="figure">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Sieve_of_Eratosthenes_animation.gif" alt="Sieve of Eratosthenes: algorithm steps for primes below 121" />
+<p class="caption">Sieve of Eratosthenes: algorithm steps for primes below 121</p>
+</div>
+</div>
+<div id="implement-in-r" class="section level3">
+<h3>Implement in R</h3>
+<pre class="r"><code>all_prime &lt;- function(n) {
+  prime &lt;- rep(TRUE, n)  # Intitialize a vector all set to TRUE
+  prime[1] &lt;- FALSE  # Remove 1 from output
+  
+  for (i in 2:sqrt(n)) {
+    if (prime[i]) prime[seq(i ^ 2, n, i)] &lt;- FALSE  # Mark FALSE if composite index.
+  }
+  
+  which(prime)  # Return indices of TRUE
+}
+
+# Example, find all prime numbers less or equal to 61
+all_prime(61)</code></pre>
+<pre><code>##  [1]  2  3  5  7 11 13 17 19 23 29 31 37 41 43 47 53 59 61</code></pre>
+</div>
+<div id="implement-in-python" class="section level3">
+<h3>Implement in Python</h3>
+<pre class="python"><code>import math
+import numpy as np
+
+def all_prime(n):
+    prime = np.array([True] * (n + 1))  # Intitialize a vector all set to TRUE
+    prime[0] = prime[1] = False  # Remove 0 and 1 from output
+
+    for i in range(2, math.ceil(math.sqrt(n))):
+        if prime[i]:
+            prime[range(i ** 2, n, i)] = False  # Mark FALSE if composite index.
+
+    return np.where(prime == 1)  # Return indices of TRUE</code></pre>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'benjaminchan'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-106572206-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>
