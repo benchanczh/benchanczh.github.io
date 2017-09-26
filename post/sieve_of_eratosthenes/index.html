@@ -48,7 +48,7 @@
                     </h1>
                     <h2 class="headline">
                     Sep 25, 2017 18:56
-                    · 478 words
+                    · 499 words
                     · 3 minutes read
                       <span class="tags">
                       
@@ -113,8 +113,8 @@ Output: all i such that A[i] is TRUE.</code></pre>
 <p class="caption">Sieve of Eratosthenes: algorithm steps for primes below 121</p>
 </div>
 </div>
-<div id="implement-in-r" class="section level3">
-<h3>Implement in R</h3>
+<div id="implementation-in-r" class="section level3">
+<h3>Implementation in R</h3>
 <pre class="r"><code>all_prime &lt;- function(n) {
   prime &lt;- rep(TRUE, n)  # Intitialize a vector all set to TRUE
   prime[1] &lt;- FALSE  # Remove 1 from output
@@ -130,8 +130,8 @@ Output: all i such that A[i] is TRUE.</code></pre>
 all_prime(61)</code></pre>
 <pre><code>##  [1]  2  3  5  7 11 13 17 19 23 29 31 37 41 43 47 53 59 61</code></pre>
 </div>
-<div id="implement-in-python" class="section level3">
-<h3>Implement in Python</h3>
+<div id="implementation-in-python" class="section level3">
+<h3>Implementation in Python</h3>
 <pre class="python"><code>import math
 import numpy as np
 
@@ -139,11 +139,15 @@ def all_prime(n):
     prime = np.array([True] * (n + 1))  # Intitialize a vector all set to TRUE
     prime[0] = prime[1] = False  # Remove 0 and 1 from output
 
-    for i in range(2, math.ceil(math.sqrt(n))):
+    for i in range(2, int(math.ceil(math.sqrt(n)))):
         if prime[i]:
             prime[range(i ** 2, n, i)] = False  # Mark FALSE if composite index.
 
-    return np.where(prime == 1)  # Return indices of TRUE</code></pre>
+    print(np.where(prime == 1))  # Return indices of TRUE
+
+all_prime(61)</code></pre>
+<pre><code>## (array([ 2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
+##        61]),)</code></pre>
 </div>
 </div>
 
