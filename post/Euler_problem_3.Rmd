@@ -1,0 +1,110 @@
+---
+title: "Euler Problem 3: Largest Prime Factor"
+author: "Benjamin Chan"
+date: 2017-10-08 19:04:09
+categories: ["Project_Euler"]
+tags: ["R", "Python", "Project_Euler"]
+description: "Euler Problem 3: Largest Prime Factor"
+---
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Mathedemo</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In the previous post, I introduced the the Sieve of Eratosthenes to find out all prime numbers with in a certain number. In this post, I'm going to use it on the Euler Problem 3.
+
+## Euler Problem 3
+
+The prime factors of $13195$ are $5, 7, 13$ and $29$. What is the largest prime factor of the number $600851475143$?
+
+I use `all_prime()` function to find out all prime numbers less than or equal to the largest integer less than square root of $n$. Because we are looking for the largest **prime factor** of $n$ but not the largest prime number within $n$, we don't need to generate all primes within $n$. After we have the list of primes, we can loop through it to find all prime factors. Please note after the `for` loop, if `n / j` $> 1$, `n / j` is also a prime factor of $n$.
+
+### Solutions
+
+#### Solution in R
+```{r}
+all_prime <- function(n) {
+  prime <- rep(TRUE, n)  # Intitialize a vector all set to TRUE
+  prime[1] <- FALSE  # Remove 1 from output
+  
+  for (i in 2:sqrt(n)) {
+    if (prime[i]) prime[seq(i ^ 2, n, i)] <- FALSE  # Mark FALSE if composite index.
+  }
+  
+  which(prime)  # Return indices of TRUE
+}
+
+prime_factors <- function(n) {
+  factors <- c()  # Create a empty vector to store prime factors
+  prime_numbers <- all_prime(floor(sqrt(n)))  # Find out all primes no greater than square root of n
+  d <- which(n %% prime_numbers == 0)  # Identify the n's prime factors
+  
+  if (length(d) == 0) return(n)  # Return n if n has no prime divisors
+  
+  for (j in prime_numbers[d]) {  # Loop through all prime numbers
+    while (n %% j == 0) {
+      factors <- c(factors , j)  # Append the list of prime factors
+      n <- n / j
+    }
+  }
+  if (n > 1) factors <- c(factors, n)  # This new n is also a prime factor of the original n
+  
+  return(factors)
+}
+
+max(prime_factors(600851475143))
+```
+
+#### Solution in Python
+```{python, eval = FALSE}
+import math
+import numpy as np
+
+def all_prime(n):
+    prime = np.array([True] * (n + 1))  # Intitialize a vector all set to TRUE
+    prime[0] = prime[1] = False  # Remove 0 and 1 from output
+
+    for i in range(2, int(math.ceil(math.sqrt(n)))):
+        if prime[i]:
+            prime[range(i ** 2, n, i)] = False  # Mark FALSE if composite index.
+
+    return(np.where(prime == 1))  # Return indices of TRUE
+
+def prime_factors(n):
+    factors = []  # Create a empty list to store prime factors
+    prime_numbers = all_prime(math.floor(math.sqrt(n)))  # Find out all primes no greater than square root of n
+    d = np.where(n % np.array(prime_numbers) == 0)[1]  # Create a numpy.ndarray to identify the n's prime factors
+
+    if len(d) == 0:
+        return(n)  # Return n if n has no prime divisors
+
+    for j in prime_numbers[0][d]:  # Loop through all prime numbers in a numpy.ndarray
+        while n % j == 0:
+            factors.append(j)  # Append the list of prime factors
+            n /= j
+
+    if n > 1:
+        factors.append(n)  # This new n is also a prime factor of the original n
+
+    return(factors)
+
+print(max(prime_factors(600851475143)))
+```
+
+To test my solutions, we can use `primeFactors` function in **numbers** package.
+```{r}
+library(numbers)
+max(primeFactors(600851475143))
+```

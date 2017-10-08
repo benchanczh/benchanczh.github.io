@@ -6,10 +6,20 @@
     <description>Recent content on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
-    <lastBuildDate>Mon, 25 Sep 2017 18:56:02 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Oct 2017 19:04:09 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Euler Problem 3: Largest Prime Factor</title>
+      <link>/post/euler_problem_3/</link>
+      <pubDate>Sun, 08 Oct 2017 19:04:09 +0000</pubDate>
+      
+      <guid>/post/euler_problem_3/</guid>
+      <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    In the previous post, I introduced the the Sieve of Eratosthenes to find out all prime numbers with in a certain number. In this post, I’m going to use it on the Euler Problem 3.
+Euler Problem 3 The prime factors of \(13195\) are \(5, 7, 13\) and \(29\). What is the largest prime factor of the number \(600851475143\)?</description>
+    </item>
     
     <item>
       <title>Using Sieve of Eratosthenes to find prime numbers</title>

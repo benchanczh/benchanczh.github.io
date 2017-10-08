@@ -1,0 +1,245 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Euler Problem 3: Largest Prime Factor &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Benjamin&#39;s Blog" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/post'>Archive</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Euler Problem 3: Largest Prime Factor
+                    </h1>
+                    <h2 class="headline">
+                    Oct 8, 2017 19:04
+                    · 526 words
+                    · 3 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/python">Python</a>
+                          
+                              <a href="/tags/project_euler">Project_Euler</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>
+Mathedemo
+</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<p>In the previous post, I introduced the the Sieve of Eratosthenes to find out all prime numbers with in a certain number. In this post, I’m going to use it on the Euler Problem 3.</p>
+<div id="euler-problem-3" class="section level2">
+<h2>Euler Problem 3</h2>
+<p>The prime factors of <span class="math inline">\(13195\)</span> are <span class="math inline">\(5, 7, 13\)</span> and <span class="math inline">\(29\)</span>. What is the largest prime factor of the number <span class="math inline">\(600851475143\)</span>?</p>
+<p>I use <code>all_prime()</code> function to find out all prime numbers less than or equal to the largest integer less than square root of <span class="math inline">\(n\)</span>. Because we are looking for the largest <strong>prime factor</strong> of <span class="math inline">\(n\)</span> but not the largest prime number within <span class="math inline">\(n\)</span>, we don’t need to generate all primes within <span class="math inline">\(n\)</span>. After we have the list of primes, we can loop through it to find all prime factors. Please note after the <code>for</code> loop, if <code>n / j</code> <span class="math inline">\(&gt; 1\)</span>, <code>n / j</code> is also a prime factor of <span class="math inline">\(n\)</span>.</p>
+<div id="solutions" class="section level3">
+<h3>Solutions</h3>
+<div id="solution-in-r" class="section level4">
+<h4>Solution in R</h4>
+<pre class="r"><code>all_prime &lt;- function(n) {
+  prime &lt;- rep(TRUE, n)  # Intitialize a vector all set to TRUE
+  prime[1] &lt;- FALSE  # Remove 1 from output
+  
+  for (i in 2:sqrt(n)) {
+    if (prime[i]) prime[seq(i ^ 2, n, i)] &lt;- FALSE  # Mark FALSE if composite index.
+  }
+  
+  which(prime)  # Return indices of TRUE
+}
+
+prime_factors &lt;- function(n) {
+  factors &lt;- c()  # Create a empty vector to store prime factors
+  prime_numbers &lt;- all_prime(floor(sqrt(n)))  # Find out all primes no greater than square root of n
+  d &lt;- which(n %% prime_numbers == 0)  # Identify the n&#39;s prime factors
+  
+  if (length(d) == 0) return(n)  # Return n if n has no prime divisors
+  
+  for (j in prime_numbers[d]) {  # Loop through all prime numbers
+    while (n %% j == 0) {
+      factors &lt;- c(factors , j)  # Append the list of prime factors
+      n &lt;- n / j
+    }
+  }
+  if (n &gt; 1) factors &lt;- c(factors, n)  # This new n is also a prime factor of the original n
+  
+  return(factors)
+}
+
+max(prime_factors(600851475143))</code></pre>
+<pre><code>## [1] 6857</code></pre>
+</div>
+<div id="solution-in-python" class="section level4">
+<h4>Solution in Python</h4>
+<pre class="python"><code>import math
+import numpy as np
+
+def all_prime(n):
+    prime = np.array([True] * (n + 1))  # Intitialize a vector all set to TRUE
+    prime[0] = prime[1] = False  # Remove 0 and 1 from output
+
+    for i in range(2, int(math.ceil(math.sqrt(n)))):
+        if prime[i]:
+            prime[range(i ** 2, n, i)] = False  # Mark FALSE if composite index.
+
+    return(np.where(prime == 1))  # Return indices of TRUE
+
+def prime_factors(n):
+    factors = []  # Create a empty list to store prime factors
+    prime_numbers = all_prime(math.floor(math.sqrt(n)))  # Find out all primes no greater than square root of n
+    d = np.where(n % np.array(prime_numbers) == 0)[1]  # Create a numpy.ndarray to identify the n&#39;s prime factors
+
+    if len(d) == 0:
+        return(n)  # Return n if n has no prime divisors
+
+    for j in prime_numbers[0][d]:  # Loop through all prime numbers in a numpy.ndarray
+        while n % j == 0:
+            factors.append(j)  # Append the list of prime factors
+            n /= j
+
+    if n &gt; 1:
+        factors.append(n)  # This new n is also a prime factor of the original n
+
+    return(factors)
+
+print(max(prime_factors(600851475143)))</code></pre>
+<p>To test my solutions, we can use <code>primeFactors</code> function in <strong>numbers</strong> package.</p>
+<pre class="r"><code>library(numbers)
+max(primeFactors(600851475143))</code></pre>
+<pre><code>## [1] 6857</code></pre>
+</div>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'benjaminchan'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-106572206-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>
