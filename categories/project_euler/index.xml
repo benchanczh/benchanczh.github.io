@@ -6,10 +6,20 @@
     <description>Recent content in Project_euler on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
-    <lastBuildDate>Sun, 08 Oct 2017 19:04:09 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Oct 2017 16:50:55 +0000</lastBuildDate>
     
 	<atom:link href="/categories/project_euler/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Euler Problem 4: Largest palindrome product</title>
+      <link>/post/euler_problem_4/</link>
+      <pubDate>Sun, 15 Oct 2017 16:50:55 +0000</pubDate>
+      
+      <guid>/post/euler_problem_4/</guid>
+      <description>Euler Problem 4 A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.
+The solution is to search for palindrome number starting from the largest number. Check if the product of two numbers is palindrome. We break the loop when the first palindrome is found.</description>
+    </item>
     
     <item>
       <title>Euler Problem 3: Largest Prime Factor</title>

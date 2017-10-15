@@ -1,0 +1,205 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Euler Problem 4: Largest palindrome product &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Benjamin&#39;s Blog" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/post'>Archive</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Euler Problem 4: Largest palindrome product
+                    </h1>
+                    <h2 class="headline">
+                    Oct 15, 2017 16:50
+                    · 216 words
+                    · 2 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/python">Python</a>
+                          
+                              <a href="/tags/project_euler">Project_Euler</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <div id="euler-problem-4" class="section level2">
+<h2>Euler Problem 4</h2>
+<p>A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.</p>
+<p>The solution is to search for palindrome number starting from the largest number. Check if the product of two numbers is palindrome. We break the loop when the first palindrome is found.</p>
+<div id="solutions" class="section level3">
+<h3>Solutions</h3>
+<div id="solution-in-r" class="section level4">
+<h4>Solution in R</h4>
+<pre class="r"><code>is_palindrome &lt;- function(x) {
+  s &lt;- as.character(x)
+  s_reverse &lt;- paste(rev(unlist(strsplit(s, &quot;&quot;))), collapse = &quot;&quot;)
+  return(s == s_reverse)
+}
+
+n = 0
+m = 0
+k = 0
+
+for (i in 999:100) {
+  for (j in 999:100) {
+    number &lt;- i * j
+    if (is_palindrome(number) &amp; number &gt; k) {
+      n = i
+      m = j
+      k = number
+    }
+  }
+}
+
+paste(n, &quot;x&quot;, m, &quot;=&quot;, k)</code></pre>
+<pre><code>## [1] &quot;993 x 913 = 906609&quot;</code></pre>
+</div>
+<div id="solution-in-python" class="section level4">
+<h4>Solution in Python</h4>
+<pre class="python"><code>def is_palindrome(x):
+    s = str(x)
+    return s == s[::-1]
+
+n = 0
+m = 0
+k = 0
+
+for i in range(999, 99, -1):
+    for j in range(999, 99, -1):
+        number = i * j
+        if is_palindrome(number) and number &gt; k:
+            n = i
+            m = j
+            k = number
+        
+print(&quot;%d x %d = %d&quot; %(n, m, k))</code></pre>
+<pre><code>## 993 x 913 = 906609</code></pre>
+</div>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'benjaminchan'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-106572206-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,67 @@
+---
+title: "Euler Problem 4: Largest palindrome product"
+author: "Benjamin Chan"
+date: 2017-10-15 16:50:55
+categories: ["Project_Euler"]
+tags: ["R", "Python", "Project_Euler"]
+description: "Euler Problem 4: Largest palindrome product"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Euler Problem 4
+
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.
+
+The solution is to search for palindrome number starting from the largest number. Check if the product of two numbers is palindrome. We break the loop when the first palindrome is found.
+
+### Solutions
+
+#### Solution in R
+```{r}
+is_palindrome <- function(x) {
+  s <- as.character(x)
+  s_reverse <- paste(rev(unlist(strsplit(s, ""))), collapse = "")
+  return(s == s_reverse)
+}
+
+n = 0
+m = 0
+k = 0
+
+for (i in 999:100) {
+  for (j in 999:100) {
+    number <- i * j
+    if (is_palindrome(number) & number > k) {
+      n = i
+      m = j
+      k = number
+    }
+  }
+}
+
+paste(n, "x", m, "=", k)
+```
+
+#### Solution in Python
+```{python}
+def is_palindrome(x):
+    s = str(x)
+    return s == s[::-1]
+
+n = 0
+m = 0
+k = 0
+
+for i in range(999, 99, -1):
+    for j in range(999, 99, -1):
+        number = i * j
+        if is_palindrome(number) and number > k:
+            n = i
+            m = j
+            k = number
+        
+print("%d x %d = %d" %(n, m, k))
+```
