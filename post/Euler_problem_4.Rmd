@@ -13,7 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Euler Problem 4
 
-A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. 
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+---
 
 The solution is to search for palindrome number starting from the largest number. We check if the product of two numbers is a palindrome and replace k with it if it's larger than k. We return k, the largest palindrome, after the loops.
 
