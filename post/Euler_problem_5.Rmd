@@ -1,0 +1,167 @@
+---
+title: 'Euler Problem 5: Smallest multiple'
+author: "Benjamin Chan"
+date: 2017-10-20 01:18:45
+categories: ["Project_Euler"]
+tags: ["R", "Python", "Project_Euler"]
+description: "Euler Problem 5: Smallest multiple"
+---
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Mathedemo</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Euler Problem 5
+
+$2520$ is the smallest number that can be divided by each of the numbers from $1$ to $10$ without any remainder.
+
+What is the smallest positive number that is evenly divisible by all of the numbers from $1$ to $20$?
+
+---
+
+This problem might be a bit confusing. "Evenly divisible" actually means divisible. So, how to find out the smallest positive number that is divisible by $1, 2, ..., 20$?
+
+The general question can be how to find out the smallest positive number that is divisible by $1, 2, ..., n$. We know each positive composite number can be divided by it's prime factors and each prime number can be divided by 1 and itself. So the smallest positive number that can be divided by $1, 2, ..., n$ is the product of all elements in a set that contains the least amount of prime factors of numbers from $1$ to $n$.
+
+For example, we only need prime numbers ${2, 2, 3, 5}$ to make up all numbers from $1$ to $6$. So the smallest positive number that is divisable by $1, ,2, ..., 6$ is $60 = 2 \times 2 \times 3 \times 5$.
+
+### Solution
+
+To get the least amount of prime factors that make up numbers $1, 2, ..., n$, we can
+
+1.Find out all the prime less than $n$. 
+
+2.Find out least amount of prime factors for all composite number less than $n$.
+
+3.Take union of above two set.
+
+4.Answer will be the product of all elements in the union set.
+
+We will use the `all_primes()` function in the [Euler Problem 3](https://benchanczh.github.io/post/euler_problem_3/) to find all prime numbers less than $n$。
+
+#### Solution in R
+```{r}
+all_primes <- function(n) {
+  prime <- rep(TRUE, n)  # Intitialize a vector and all set to TRUE
+  prime[1] <- FALSE  # Remove 1 from output
+  
+  for (i in 2:sqrt(n)) {
+    if (prime[i]) prime[seq(i ^ 2, n, i)] <- FALSE  # Mark FALSE if composite index.
+  }
+  
+  which(prime)  # Return indices of TRUE
+}
+```
+
+```{r}
+smallest_multiple <- function(x) {
+  primes <- all_primes(x)  # Use all_primes() to find all prime numbers less than n
+  composite <- (1:x)[!(1:x) %in% primes & (1:x) != 1]  # Exclude 1 and all prime numbers to find all composites
+
+  prime_list <- c()
+  # Vector prime_list saves the maximun amount of each prime factors for all composite numbers
+  for (i in 1:length(primes)) {
+    k <- 0
+    n <- composite
+    while (sum(n %% primes[i] == 0) >= 1) {  # Condition is TRUE if at least 1 composite is divisble by that prime
+      n <- n / primes[i]
+      k <- k + 1
+      prime_list[i] <- k  # Save the maximun times of the divisible prime in the corresponding position in prime list
+    }
+  }
+
+  product <- 1
+  
+  for (i in 1:length(prime_list)) {
+    product <- product * primes[i] ^ prime_list[i]  # Calculate the product of all divisible primes
+  }
+  # Multiple with the indivisble primes to get the smallest multiple
+  product <- product * prod(primes[(length(prime_list) + 1):length(primes)])
+  
+  product
+}
+
+smallest_multiple(20)
+```
+
+#### Solution in Python
+```{python}
+import math
+import numpy as np
+
+
+def all_primes(n):
+    prime = np.array([True] * (n + 1))  # Intitialize a vector and all set to TRUE
+    prime[0] = prime[1] = False  # Remove 0 and 1 from output
+
+    for i in range(2, int(math.ceil(math.sqrt(n))) + 1):
+        if prime[i]:
+            prime[range(i ** 2, n + 1, i)] = False  # Mark FALSE if composite index.
+
+    return(list(np.where(prime == 1)[0]))  # Return indices of TRUE
+
+
+def smallest_multiple(x):
+    primes = all_primes(x)  # Use all_primes() to find all prime numbers less than n
+    series = range(1, x + 1)
+    composite = list(set(series) - set(primes))
+
+    prime_list = [0] * len(primes)
+    # Vector prime_list saves the maximun amount of each prime factors for all composite numbers
+    for i in range(0, len(primes)):
+        k = 0
+        n = composite
+        while sum(n % primes[i] == 0) >= 1:  # Condition is TRUE if at least 1 composite is divisble by that prime
+            n /= primes[i]
+            k += 1
+            prime_list[i] = k  # Index indicates the prime number and the value is the amount of that prime.
+
+    product = 1
+    for i in range(0, len(primes)):
+        if prime_list[i] != 0:
+            product *= primes[i] ** prime_list[i]  # Power is maximum amount of that prime
+        else:
+            product *= primes[i] ** (prime_list[i] + 1)
+
+    print(product)
+```
+
+### Another solution
+
+There is another solution that is much more elegant and efficient to this problem. According to [Peter Prevos](http://r.prevos.net/euler-problem-5/), the smallest positive number that is divisible by all numbers from $1$ to $20$ can be divisible by $2520$. So we can start with 2520 and increase the target number by 2520 each time until we it meets the requirement. I think this is not a general solution but it does solve this problem.
+
+#### Solution in R
+```{r}
+# Start as high as possible
+i <- 2520
+# Check consecutive numbers for divisibility by 1:20
+while (sum(i %% (1:20)) != 0) {
+  i <- i + 2520  # Increase by smallest number divisible by 1:10
+}
+
+i
+```
+
+#### Solution in Python
+```{python}
+import numpy as np
+# Start as high as possible
+i = 2520
+# Check consecutive numbers for divisibility by 1:20
+while (sum(np.array(i) % range(1, 21)) != 0):
+    i += 2520
+
+print(i)
+```

@@ -87,13 +87,11 @@ Mathedemo
 <div id="sieve-of-eratosthenes" class="section level2">
 <h2>Sieve of Eratosthenes</h2>
 <p>To find all the prime numbers less than or equal to a given integer n by Eratosthenes’ method:</p>
-<ol style="list-style-type: decimal">
-<li><p>Create a list of consecutive integers from <span class="math inline">\(2\)</span> through <span class="math inline">\(n\)</span> <span class="math inline">\((2, 3, 4, ..., n)\)</span>.</p></li>
-<li><p>Initially, let <span class="math inline">\(p = 2\)</span>, the smallest prime number.</p></li>
-<li><p>Enumerate the multiples of <span class="math inline">\(p\)</span> by counting to <span class="math inline">\(n\)</span> from <span class="math inline">\(p ^ 2\)</span> in increments of <span class="math inline">\(p\)</span>, and mark them in the list (these will be <span class="math inline">\(p ^ 2, p ^ 2 + p, p ^ 2 + 2p, ...\)</span>; the <span class="math inline">\(p\)</span> itself should not be marked).</p></li>
-<li><p>Find the first number greater than <span class="math inline">\(p\)</span> in the list that is not marked. Let <span class="math inline">\(p\)</span> now equal this new number (which is the next prime), and repeat from step 3. If <span class="math inline">\(p ^ 2\)</span> is greater than <span class="math inline">\(n\)</span>, stop.</p></li>
-<li><p>When the algorithm terminates, the numbers remaining not marked in the list are all the primes number not greater than <span class="math inline">\(n\)</span>.</p></li>
-</ol>
+<p>1.Create a list of consecutive integers from <span class="math inline">\(2\)</span> through <span class="math inline">\(n\)</span> <span class="math inline">\((2, 3, 4, ..., n)\)</span>.</p>
+<p>2.Initially, let <span class="math inline">\(p = 2\)</span>, the smallest prime number.</p>
+<p>3.Enumerate the multiples of <span class="math inline">\(p\)</span> by counting to <span class="math inline">\(n\)</span> from <span class="math inline">\(p ^ 2\)</span> in increments of <span class="math inline">\(p\)</span>, and mark them in the list (these will be <span class="math inline">\(p ^ 2, p ^ 2 + p, p ^ 2 + 2p, ...\)</span>; the <span class="math inline">\(p\)</span> itself should not be marked).</p>
+<p>4.Find the first number greater than <span class="math inline">\(p\)</span> in the list that is not marked. Let <span class="math inline">\(p\)</span> now equal this new number (which is the next prime), and repeat from step 3. If <span class="math inline">\(p ^ 2\)</span> is greater than <span class="math inline">\(n\)</span>, stop.</p>
+<p>5.When the algorithm terminates, the numbers remaining not marked in the list are all the primes number not greater than <span class="math inline">\(n\)</span>.</p>
 <div id="pseudocode" class="section level3">
 <h3>Pseudocode</h3>
 <p>About algorithm can be expressed in pseudocode as below:</p>

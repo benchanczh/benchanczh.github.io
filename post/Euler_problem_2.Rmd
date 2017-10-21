@@ -31,6 +31,8 @@ $$1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...$$
 
 By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
+---
+
 ### Solutions
 
 My solution to this problem is to generate a Fibonacci sequence with no value larger than the target, which is 4 million in this problem, then sum up all even numbers. To generalize this problem, I create a function that takes target $n$ and return the sum of all even values in the Fibonacci sequence whose values do not exceed $n$.

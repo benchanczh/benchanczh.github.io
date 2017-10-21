@@ -1,0 +1,126 @@
+---
+title: 'Euler Problem 7: 10001st prime'
+author: "Benjamin Chan"
+date: 2017-10-21 15:55:11
+categories: ["Project_Euler"]
+tags: ["R", "Python", "Project_Euler"]
+description: "Euler Problem 7: 10001st prime"
+---
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Mathedemo</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+You might ask why I skip Euler Problem 6. It's because Euler Problem 6 is so easy that I don't want to write a blog about its solution. In this post, we will discuss Euler Problem 7.
+
+## Euler Problem 7
+
+By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13. 
+
+What is the 10001st prime number?
+
+---
+
+### Solution
+
+To generalize this problem, we can ask "What is the $N^{th}$ prime number?". In Euler Problem 3, we built `all_primes()` function to find out how many prime numbers less than or equal to a given number. We, however, cannot use this function to find out the target prime because we don't know which number is bigger than the target.
+
+My strategy is following:
+
+1.Create a list `primes` to save each prime.
+
+2.`primes` is initialized with first prime.
+
+3.Check if the length of `primes` is less than number $N$. If so, do step 4 and 5.
+
+4.Start with 3 and loop through odd numbers. Check if it's **indivisible** by primes in `primes`.
+
+5.Add indivisble odd number to `primes`.
+
+6.Loop stops if the length of `primes` equal to $N$.
+
+When implementing above strategy in R and Python, we can use both vectorized operation and for loop.
+
+#### Solution in R with vectorized operation
+```{r}
+get_prime <- function(x) {
+  primes <- c(2)
+  n <- 3
+  
+  while (length(primes) < x) {  # Loop until we get x amount of primes
+    if (sum(n %% primes == 0) == 0) {  # Use vectorization to test if n is a composite number
+      primes <- c(primes, n)
+    }
+    n <- n + 2  # Skip even numbers because they are not primes.
+  }
+  primes[length(primes)]
+}
+
+
+get_prime(10001)
+```
+
+#### Solution in R without vectorized operation
+```{r}
+get_prime2 <- function(x) {
+  primes <- c(2)
+  n <- 3
+  
+  while (length(primes) < x) {  # Loop until we get x amount of primes
+    k <- 0
+    for (i in primes) {  # Check if n is divisible by any primes
+      if (n %% i == 0) {
+        k <- k + 1  # k > 0 indicates n is a composite
+        break  # Jump out the loop if n is divisble by a prime
+      }
+    }
+    if (k == 0) {
+      primes <- c(primes, n)  # add n to primes list if n is a prime
+    }
+    n <- n + 2  # Skip even numbers because they are not primes
+  }
+  
+  primes[length(primes)]
+}
+
+
+get_prime2(10001)
+```
+
+My method in Python with vectorized operation is very slow so I'm not going to include it here.
+
+#### Solution in Python without vectorized operation
+```{python}
+def get_prime(x):
+    primes = [2]
+    n = 3
+
+    while len(primes) < x:  # Loop until we get x amount of primes
+        k = 0
+        for i in primes:  # Check if n is divisible by any primes
+            if n % i == 0:
+                k += 1  # k > 0 indicates n is a composite
+                break  # Jump out the loop if n is divisble by a prime
+        if k == 0:
+            primes.append(n)  # add n to primes list if n is a prime
+
+        n += 2  # Skip even numbers because they are not primes
+
+    print(primes[-1])
+
+
+get_prime(10001)
+```
+

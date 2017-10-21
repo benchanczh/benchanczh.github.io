@@ -6,10 +6,31 @@
     <description>Recent content in R on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
-    <lastBuildDate>Sun, 15 Oct 2017 16:50:55 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Oct 2017 15:55:11 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Euler Problem 7: 10001st prime</title>
+      <link>/post/euler_problem_7/</link>
+      <pubDate>Sat, 21 Oct 2017 15:55:11 +0000</pubDate>
+      
+      <guid>/post/euler_problem_7/</guid>
+      <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    You might ask why I skip Euler Problem 6. It’s because Euler Problem 6 is so easy that I don’t want to write a blog about its solution. In this post, we will discuss Euler Problem 7.
+Euler Problem 7 By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.</description>
+    </item>
+    
+    <item>
+      <title>Euler Problem 5: Smallest multiple</title>
+      <link>/post/euler_problem_5/</link>
+      <pubDate>Fri, 20 Oct 2017 01:18:45 +0000</pubDate>
+      
+      <guid>/post/euler_problem_5/</guid>
+      <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    Euler Problem 5 \(2520\) is the smallest number that can be divided by each of the numbers from \(1\) to \(10\) without any remainder.
+What is the smallest positive number that is evenly divisible by all of the numbers from \(1\) to \(20\)?
+This problem might be a bit confusing. “Evenly divisible” actually means divisible. So, how to find out the smallest positive number that is divisible by \(1, 2, .</description>
+    </item>
     
     <item>
       <title>Euler Problem 4: Largest palindrome product</title>
@@ -17,7 +38,8 @@
       <pubDate>Sun, 15 Oct 2017 16:50:55 +0000</pubDate>
       
       <guid>/post/euler_problem_4/</guid>
-      <description>Euler Problem 4 A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.
+      <description>Euler Problem 4 A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+Find the largest palindrome made from the product of two 3-digit numbers.
 The solution is to search for palindrome number starting from the largest number. We check if the product of two numbers is a palindrome and replace k with it if it’s larger than k.</description>
     </item>
     
@@ -28,7 +50,8 @@ The solution is to search for palindrome number starting from the largest number
       
       <guid>/post/euler_problem_3/</guid>
       <description>Mathedemo  MathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}});    In the previous post, I introduced the the Sieve of Eratosthenes to find out all prime numbers with in a certain number. In this post, I’m going to use it on the Euler Problem 3.
-Euler Problem 3 The prime factors of \(13195\) are \(5, 7, 13\) and \(29\). What is the largest prime factor of the number \(600851475143\)?</description>
+Euler Problem 3 The prime factors of \(13195\) are \(5, 7, 13\) and \(29\).
+What is the largest prime factor of the number \(600851475143\)?</description>
     </item>
     
     <item>
