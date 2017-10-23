@@ -45,51 +45,44 @@ My strategy is following:
 
 3.Check if the length of `primes` is less than number $N$. If so, do step 4 and 5.
 
-4.Start with 3 and loop through odd numbers. Check if it's **indivisible** by primes in `primes`.
+4.Start with 3 and loop through odd numbers. Check if it's a prime by the helper function `is_prime()`.
 
-5.Add indivisble odd number to `primes`.
+5.Add the number to `primes` if `is_prime()` returns true.
 
 6.Loop stops if the length of `primes` equal to $N$.
 
-When implementing above strategy in R and Python, we can use both vectorized operation and for loop.
 
-#### Solution in R with vectorized operation
+#### Solution in R
 ```{r}
-get_prime <- function(x) {
-  primes <- c(2)
-  n <- 3
-  
-  while (length(primes) < x) {  # Loop until we get x amount of primes
-    if (sum(n %% primes == 0) == 0) {  # Use vectorization to test if n is a composite number
-      primes <- c(primes, n)
-    }
-    n <- n + 2  # Skip even numbers because they are not primes.
+is_prime <- function(n) {
+  if (n == 3) {
+    return(TRUE)
   }
-  primes[length(primes)]
+  
+  if (n %% 2 == 0) {  # Even numbers bigger than 2 are no primes
+    return(FALSE)
+  }
+  
+  for (i in seq(3, n ^ 0.5 + 1, 2)) {  # Only loop through odd numbers
+    if (n %% i == 0) {
+      return(FALSE)
+    }
+  }
+  
+  return(TRUE)
 }
 
 
-get_prime(10001)
-```
-
-#### Solution in R without vectorized operation
-```{r}
 get_prime2 <- function(x) {
   primes <- c(2)
-  n <- 3
+  m <- 3
   
   while (length(primes) < x) {  # Loop until we get x amount of primes
-    k <- 0
-    for (i in primes) {  # Check if n is divisible by any primes
-      if (n %% i == 0) {
-        k <- k + 1  # k > 0 indicates n is a composite
-        break  # Jump out the loop if n is divisble by a prime
-      }
+    if (is_prime(m)) {
+      primes <- c(primes, m)
     }
-    if (k == 0) {
-      primes <- c(primes, n)  # add n to primes list if n is a prime
-    }
-    n <- n + 2  # Skip even numbers because they are not primes
+    
+    m <- m + 2  # Only loop through odd numbers
   }
   
   primes[length(primes)]
@@ -99,24 +92,30 @@ get_prime2 <- function(x) {
 get_prime2(10001)
 ```
 
-My method in Python with vectorized operation is very slow so I'm not going to include it here.
-
-#### Solution in Python without vectorized operation
+#### Solution in Python
 ```{python}
+def is_prime(n):
+    if n == 3:
+        return True
+
+    if n % 2 == 0:  # Even numbers bigger than 2 are no primes
+        return False
+
+    for i in range(3, int(n ** 0.5) + 1, 2):  # Only loop through odd numbers
+        if n % i == 0:
+            return False
+
+    return True
+
+
 def get_prime(x):
     primes = [2]
-    n = 3
+    m = 3
 
     while len(primes) < x:  # Loop until we get x amount of primes
-        k = 0
-        for i in primes:  # Check if n is divisible by any primes
-            if n % i == 0:
-                k += 1  # k > 0 indicates n is a composite
-                break  # Jump out the loop if n is divisble by a prime
-        if k == 0:
-            primes.append(n)  # add n to primes list if n is a prime
-
-        n += 2  # Skip even numbers because they are not primes
+        if is_prime(m):
+            primes.append(m)
+        m += 2  # Only loop through odd numbers
 
     print(primes[-1])
 
