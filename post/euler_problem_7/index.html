@@ -48,8 +48,13 @@
                     </h1>
                     <h2 class="headline">
                     Oct 21, 2017 15:55
+<<<<<<< HEAD
                     · 409 words
                     · 2 minutes read
+=======
+                    · 544 words
+                    · 3 minutes read
+>>>>>>> 0a3c76620ce479e0f67b272312cdeae10d09864b
                       <span class="tags">
                       
                       
@@ -93,6 +98,7 @@ Mathedemo
 <p>1.Create a list <code>primes</code> to save each prime.</p>
 <p>2.<code>primes</code> is initialized with first prime.</p>
 <p>3.Check if the length of <code>primes</code> is less than number <span class="math inline">\(N\)</span>. If so, do step 4 and 5.</p>
+<<<<<<< HEAD
 <p>4.Start with 3 and loop through odd numbers. Check if it’s a prime by the helper function <code>is_prime()</code>.</p>
 <p>5.Add the number to <code>primes</code> if <code>is_prime()</code> returns true.</p>
 <p>6.Loop stops if the length of <code>primes</code> equal to <span class="math inline">\(N\)</span>.</p>
@@ -127,6 +133,49 @@ get_prime2 &lt;- function(x) {
     }
     
     m &lt;- m + 2  # Only loop through odd numbers
+=======
+<p>4.Start with 3 and loop through odd numbers. Check if it’s <strong>indivisible</strong> by primes in <code>primes</code>.</p>
+<p>5.Add indivisble odd number to <code>primes</code>.</p>
+<p>6.Loop stops if the length of <code>primes</code> equal to <span class="math inline">\(N\)</span>.</p>
+<p>When implementing above strategy in R and Python, we can use both vectorized operation and for loop.</p>
+<div id="solution-in-r-with-vectorized-operation" class="section level4">
+<h4>Solution in R with vectorized operation</h4>
+<pre class="r"><code>get_prime &lt;- function(x) {
+  primes &lt;- c(2)
+  n &lt;- 3
+  
+  while (length(primes) &lt; x) {  # Loop until we get x amount of primes
+    if (sum(n %% primes == 0) == 0) {  # Use vectorization to test if n is a composite number
+      primes &lt;- c(primes, n)
+    }
+    n &lt;- n + 2  # Skip even numbers because they are not primes.
+  }
+  primes[length(primes)]
+}
+
+
+get_prime(10001)</code></pre>
+<pre><code>## [1] 104743</code></pre>
+</div>
+<div id="solution-in-r-without-vectorized-operation" class="section level4">
+<h4>Solution in R without vectorized operation</h4>
+<pre class="r"><code>get_prime2 &lt;- function(x) {
+  primes &lt;- c(2)
+  n &lt;- 3
+  
+  while (length(primes) &lt; x) {  # Loop until we get x amount of primes
+    k &lt;- 0
+    for (i in primes) {  # Check if n is divisible by any primes
+      if (n %% i == 0) {
+        k &lt;- k + 1  # k &gt; 0 indicates n is a composite
+        break  # Jump out the loop if n is divisble by a prime
+      }
+    }
+    if (k == 0) {
+      primes &lt;- c(primes, n)  # add n to primes list if n is a prime
+    }
+    n &lt;- n + 2  # Skip even numbers because they are not primes
+>>>>>>> 0a3c76620ce479e0f67b272312cdeae10d09864b
   }
   
   primes[length(primes)]
@@ -135,6 +184,7 @@ get_prime2 &lt;- function(x) {
 
 get_prime2(10001)</code></pre>
 <pre><code>## [1] 104743</code></pre>
+<<<<<<< HEAD
 </div>
 <div id="solution-in-python" class="section level4">
 <h4>Solution in Python</h4>
@@ -160,6 +210,26 @@ def get_prime(x):
         if is_prime(m):
             primes.append(m)
         m += 2  # Only loop through odd numbers
+=======
+<p>My method in Python with vectorized operation is very slow so I’m not going to include it here.</p>
+</div>
+<div id="solution-in-python-without-vectorized-operation" class="section level4">
+<h4>Solution in Python without vectorized operation</h4>
+<pre class="python"><code>def get_prime(x):
+    primes = [2]
+    n = 3
+
+    while len(primes) &lt; x:  # Loop until we get x amount of primes
+        k = 0
+        for i in primes:  # Check if n is divisible by any primes
+            if n % i == 0:
+                k += 1  # k &gt; 0 indicates n is a composite
+                break  # Jump out the loop if n is divisble by a prime
+        if k == 0:
+            primes.append(n)  # add n to primes list if n is a prime
+
+        n += 2  # Skip even numbers because they are not primes
+>>>>>>> 0a3c76620ce479e0f67b272312cdeae10d09864b
 
     print(primes[-1])
 
