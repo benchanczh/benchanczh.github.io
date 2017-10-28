@@ -4,7 +4,7 @@ author: "Benjamin Chan"
 date: 2017-10-20 01:18:45
 categories: ["Project_Euler"]
 tags: ["R", "Python", "Project_Euler"]
-description: "Euler Problem 5: Smallest multiple"
+description: "How to find the smallest positive number that is divisible by 1 to n"
 ---
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">

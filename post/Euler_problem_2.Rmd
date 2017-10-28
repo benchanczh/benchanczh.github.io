@@ -4,7 +4,7 @@ author: "Benjamin Chan"
 date: 2017-09-23 12:01:46
 categories: ["Project_Euler"]
 tags: ["R", "Python", "Project_Euler"]
-description: "Euler Problem 2: Even Fibonacci numbers"
+description: "How to find the sum of the even-valued terms in a Fibonacci sequence whose values do not exceed four million"
 ---
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">

@@ -4,7 +4,7 @@ author: "Benjamin Chan"
 date: 2017-10-15 16:50:55
 categories: ["Project_Euler"]
 tags: ["R", "Python", "Project_Euler"]
-description: "Euler Problem 4: Largest palindrome product"
+description: "How to find the largest palindrome made from the product of two 3-digit numbers"
 ---
 
 ```{r setup, include=FALSE}

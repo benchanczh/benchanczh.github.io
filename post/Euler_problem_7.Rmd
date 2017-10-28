@@ -4,7 +4,7 @@ author: "Benjamin Chan"
 date: 2017-10-21 15:55:11
 categories: ["Project_Euler"]
 tags: ["R", "Python", "Project_Euler"]
-description: "Euler Problem 7: 10001st prime"
+description: "How to find the Nth prime"
 ---
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
