@@ -1,0 +1,216 @@
+---
+title: "Hive Editor in a Shiny app"
+author: "Benjamin Chan"
+date: 2018-08-27 20:43:11
+categories: ["Hive editor in Shiny"]
+tags: ["SQL", "Editor", "Shiny", "Hive"]
+description: "Building a hive editor using Shiny and shinyAce"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+When I was working on the network analysis of SWIFT mt103 message data, I used Apache Hive to query data from the EDL
+very often. My company provided me with [HUE](http://gethue.com/) as an editor to execute SQL queries but HUE always crashed
+with some unknown reasons. Even the data scientists who maintained HUE didn't know what caused this issue. The alternative
+could be using Python's pyodbc or R's DBI to connect to Hive. However, an editor connected to Hive could provide better
+user experience, especially for those who are not familiar with Python and R.
+
+## Ace Editor in a Shiny app
+
+I came across with R's shinyAce package when I was look for a solution. It enables Shiny application developers to use 
+the [Ace text editor](https://ace.c9.io/) in their applications. shinyAce is available on CRAN, so installation is as simple as:
+
+```{r, eval=FALSE}
+install.packages("shinyAce")
+```
+
+In order to embed Ace editor in a Shiny app, you can call `aceEditor()` function in tabPanel. The mode, theme, and current 
+text can be defined when the element is initialized in `ui.R` or afterwards using the `updateAceEditor()` function. The 
+editor registers itself as a reactive Shiny input, so the current value of the editor can easily be pulled from `server.R` 
+using `input$yourEditorsName`.
+
+### Shiny ui.R
+
+```{r, eval=FALSE}
+## DEPENDENCIES --------------------------------------------------------------------------------------------------------
+library(shiny)
+library(shinydashboard)
+library(shinyAce)
+library(DT)
+library(shinyalert)
+
+## SIDEBAR -------------------------------------------------------------------------------------------------------------
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem("Hive", tabName = "hiveql", icon = icon("database")),
+    useShinyalert()
+  )
+)
+
+
+## BODY ----------------------------------------------------------------------------------------------------------------
+body <- dashboardBody(
+  fluidRow(
+    tabItems(
+      tabItem(tabName = "hiveql",
+              fluidRow(
+                tabBox(
+                  width = 9,
+                  tabPanel("Hive editor", 
+                           # Ace editor for users to query dsna data
+                           aceEditor(
+                             "code",
+                             mode = "sql",
+                             wordWrap = TRUE,
+                             theme = "tomorrow_night_eighties",
+                             height = "200px",
+                             fontSize = 14,
+                             autoComplete = "live"
+                           ),
+                           actionButton("run_sql", 
+                                        "Execute",
+                                        icon = icon("cogs"),
+                                        style = "color: #ffffff; background-color: #D81E05"),
+                           downloadButton("downloadData", "Download"))
+                ),
+                tabBox(
+                  width = 3,
+                  tabPanel("Editor theme",
+                           # Users can change Ace editor's theme
+                           selectInput(
+                             "editor_theme",
+                             "Theme:",
+                             choices = getAceThemes(),
+                             selected = "tomorrow_night_eighties"))
+                ),
+                tabBox(
+                  width = 12,
+                  tabPanel("Result",
+                           # Show current query result
+                           DTOutput("sql_result")),
+                  tabPanel("Recent queries",
+                           # Show previous queries
+                           DTOutput("recent_queries"))
+                )
+              )
+      )
+    ),
+  )
+)
+
+
+## DASHBOARD PAGE ------------------------------------------------------------------------------------------------------
+ui <- dashboardPage(
+  dashboardHeader(title = "Hive editor")
+  ),
+  sidebar,
+  body
+)
+```
+
+### Shiny server.R
+
+```{r, eval=FALSE}
+## DEPENDENCIES --------------------------------------------------------------------------------------------------------
+library(DBI)
+library(pool)
+library(tidyverse)
+library(DT)
+library(lubridate)
+library(shinyAce)
+library(shinyalert)
+
+## CREATE CONNECTION TO dsna BY DSN ------------------------------------------------------------------------------------
+pool <- dbPool(odbc::odbc(), dsn = "HP1-64bit", Port = 10000)
+
+onStop(function() {
+  poolClose(pool)
+})
+
+## SERVER --------------------------------------------------------------------------------------------------------------
+server <- function(input, output, session) {
+  ## HIVE EDITOR -------------------------------------------------------------------------------------------------------
+  # Store editor input
+  sql_script <- eventReactive(input$run_sql, {
+    input$code
+  })
+  
+  # Initialize blank table for recent queries
+  reactive_values <- reactiveValues()
+  
+  reactive_values$queries_table <- tibble(Time = character(0), Query = character(0))
+  
+  # Execute sql query and update recent queries table
+  observeEvent(input$run_sql, {
+    # Query result
+    output$sql_result <- renderDT(
+      withProgress(message = 'Retrieving data', {
+        tryCatch({
+          datatable(dbGetQuery(pool, sql_script()),
+                    extensions = c("Buttons", "Scroller"),
+                    options = list(dom = 'Bfrtip',
+                                   buttons = "csv",
+                                   deferRender = TRUE,
+                                   scroller = TRUE,
+                                   scrollY = 560,
+                                   scrollX = TRUE))
+        },
+        error = function(e) {
+          shinyalert("Oops!", conditionMessage(e), type = "error", closeOnClickOutside = TRUE)
+        })
+      }),
+      server = FALSE
+    )
+    
+    # Update recent queries table
+    reactive_values$queries_table <- add_row(reactive_values$queries_table, 
+                                             Time = format(Sys.time(), "%Y-%m-%d %r"), 
+                                             Query = sql_script())
+    
+    output$recent_queries <- renderDT(
+      datatable(reactive_values$queries_table, options = list(dom = 't')) %>% 
+        formatStyle("Query", color = "red")
+    )
+  })
+  
+  ## DOWNLOAD SQL SCRIPT -----------------------------------------------------------------------------------------------
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      "Hive.sql"
+    },
+    content = function(file) {
+      write_file(sql_script(), file)
+    }
+  )
+  
+  ## EDITOR THEME ------------------------------------------------------------------------------------------------------
+  observe({
+    updateAceEditor(session,
+                    "code",
+                    mode = "sql",
+                    theme = input$editor_theme)
+  })
+  
+  ## CHECK dsna CONNECTION ---------------------------------------------------------------------------------------------
+  observeEvent(input$check_connection, {
+    tryCatch({
+      nrow(dbGetQuery(pool, "show tables")) >= 1
+      shinyalert("You're connected!", 
+                 "This app is connected to dsna.", 
+                 type = "success", 
+                 closeOnClickOutside = TRUE)
+    },
+    error = function(e) {
+      shinyalert("Oops!", 
+                 "This app is disconnected to dsna. Please refresh it", 
+                 type = "error", 
+                 closeOnClickOutside = TRUE)
+    })
+  })
+}
+```
+
+And the Ace editor in Shiny looks like:
+![Hive editor in a Shiny app](shinyAce.png)

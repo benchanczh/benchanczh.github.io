@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sql on Benjamin&#39;s Blog</title>
+    <link>/tags/sql/</link>
+    <description>Recent content in Sql on Benjamin&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ca</language>
+    <lastBuildDate>Mon, 27 Aug 2018 20:43:11 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/sql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hive Editor in a Shiny app</title>
+      <link>/post/hive_editor_in_shiny_app/</link>
+      <pubDate>Mon, 27 Aug 2018 20:43:11 +0000</pubDate>
+      
+      <guid>/post/hive_editor_in_shiny_app/</guid>
+      <description>When I was working on the network analysis of SWIFT mt103 message data, I used Apache Hive to query data from the EDL very often. My company provided me with HUE as an editor to execute SQL queries but HUE always crashed with some unknown reasons. Even the data scientists who maintained HUE didn’t know what caused this issue. The alternative could be using Python’s pyodbc or R’s DBI to connect to Hive.</description>
+    </item>
+    
+  </channel>
+</rss>

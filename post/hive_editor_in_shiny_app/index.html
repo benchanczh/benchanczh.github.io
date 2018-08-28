@@ -1,0 +1,337 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Hive Editor in a Shiny app &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Benjamin&#39;s Blog" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/post'>Archive</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Hive Editor in a Shiny app
+                    </h1>
+                    <h2 class="headline">
+                    Aug 27, 2018 20:43
+                    · 624 words
+                    · 3 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/sql">SQL</a>
+                          
+                              <a href="/tags/editor">Editor</a>
+                          
+                              <a href="/tags/shiny">Shiny</a>
+                          
+                              <a href="/tags/hive">Hive</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <p>When I was working on the network analysis of SWIFT mt103 message data, I used Apache Hive to query data from the EDL very often. My company provided me with <a href="http://gethue.com/">HUE</a> as an editor to execute SQL queries but HUE always crashed with some unknown reasons. Even the data scientists who maintained HUE didn’t know what caused this issue. The alternative could be using Python’s pyodbc or R’s DBI to connect to Hive. However, an editor connected to Hive could provide better user experience, especially for those who are not familiar with Python and R.</p>
+<div id="ace-editor-in-a-shiny-app" class="section level2">
+<h2>Ace Editor in a Shiny app</h2>
+<p>I came across with R’s shinyAce package when I was look for a solution. It enables Shiny application developers to use the <a href="https://ace.c9.io/">Ace text editor</a> in their applications. shinyAce is available on CRAN, so installation is as simple as:</p>
+<pre class="r"><code>install.packages(&quot;shinyAce&quot;)</code></pre>
+<p>In order to embed Ace editor in a Shiny app, you can call <code>aceEditor()</code> function in tabPanel. The mode, theme, and current text can be defined when the element is initialized in <code>ui.R</code> or afterwards using the <code>updateAceEditor()</code> function. The editor registers itself as a reactive Shiny input, so the current value of the editor can easily be pulled from <code>server.R</code> using <code>input$yourEditorsName</code>.</p>
+<div id="shiny-ui.r" class="section level3">
+<h3>Shiny ui.R</h3>
+<pre class="r"><code>## DEPENDENCIES --------------------------------------------------------------------------------------------------------
+library(shiny)
+library(shinydashboard)
+library(shinyAce)
+library(DT)
+library(shinyalert)
+
+## SIDEBAR -------------------------------------------------------------------------------------------------------------
+sidebar &lt;- dashboardSidebar(
+  sidebarMenu(
+    menuItem(&quot;Hive&quot;, tabName = &quot;hiveql&quot;, icon = icon(&quot;database&quot;)),
+    useShinyalert()
+  )
+)
+
+
+## BODY ----------------------------------------------------------------------------------------------------------------
+body &lt;- dashboardBody(
+  fluidRow(
+    tabItems(
+      tabItem(tabName = &quot;hiveql&quot;,
+              fluidRow(
+                tabBox(
+                  width = 9,
+                  tabPanel(&quot;Hive editor&quot;, 
+                           # Ace editor for users to query dsna data
+                           aceEditor(
+                             &quot;code&quot;,
+                             mode = &quot;sql&quot;,
+                             wordWrap = TRUE,
+                             theme = &quot;tomorrow_night_eighties&quot;,
+                             height = &quot;200px&quot;,
+                             fontSize = 14,
+                             autoComplete = &quot;live&quot;
+                           ),
+                           actionButton(&quot;run_sql&quot;, 
+                                        &quot;Execute&quot;,
+                                        icon = icon(&quot;cogs&quot;),
+                                        style = &quot;color: #ffffff; background-color: #D81E05&quot;),
+                           downloadButton(&quot;downloadData&quot;, &quot;Download&quot;))
+                ),
+                tabBox(
+                  width = 3,
+                  tabPanel(&quot;Editor theme&quot;,
+                           # Users can change Ace editor&#39;s theme
+                           selectInput(
+                             &quot;editor_theme&quot;,
+                             &quot;Theme:&quot;,
+                             choices = getAceThemes(),
+                             selected = &quot;tomorrow_night_eighties&quot;))
+                ),
+                tabBox(
+                  width = 12,
+                  tabPanel(&quot;Result&quot;,
+                           # Show current query result
+                           DTOutput(&quot;sql_result&quot;)),
+                  tabPanel(&quot;Recent queries&quot;,
+                           # Show previous queries
+                           DTOutput(&quot;recent_queries&quot;))
+                )
+              )
+      )
+    ),
+  )
+)
+
+
+## DASHBOARD PAGE ------------------------------------------------------------------------------------------------------
+ui &lt;- dashboardPage(
+  dashboardHeader(title = &quot;Hive editor&quot;)
+  ),
+  sidebar,
+  body
+)</code></pre>
+</div>
+<div id="shiny-server.r" class="section level3">
+<h3>Shiny server.R</h3>
+<pre class="r"><code>## DEPENDENCIES --------------------------------------------------------------------------------------------------------
+library(DBI)
+library(pool)
+library(tidyverse)
+library(DT)
+library(lubridate)
+library(shinyAce)
+library(shinyalert)
+
+## CREATE CONNECTION TO dsna BY DSN ------------------------------------------------------------------------------------
+pool &lt;- dbPool(odbc::odbc(), dsn = &quot;HP1-64bit&quot;, Port = 10000)
+
+onStop(function() {
+  poolClose(pool)
+})
+
+## SERVER --------------------------------------------------------------------------------------------------------------
+server &lt;- function(input, output, session) {
+  ## HIVE EDITOR -------------------------------------------------------------------------------------------------------
+  # Store editor input
+  sql_script &lt;- eventReactive(input$run_sql, {
+    input$code
+  })
+  
+  # Initialize blank table for recent queries
+  reactive_values &lt;- reactiveValues()
+  
+  reactive_values$queries_table &lt;- tibble(Time = character(0), Query = character(0))
+  
+  # Execute sql query and update recent queries table
+  observeEvent(input$run_sql, {
+    # Query result
+    output$sql_result &lt;- renderDT(
+      withProgress(message = &#39;Retrieving data&#39;, {
+        tryCatch({
+          datatable(dbGetQuery(pool, sql_script()),
+                    extensions = c(&quot;Buttons&quot;, &quot;Scroller&quot;),
+                    options = list(dom = &#39;Bfrtip&#39;,
+                                   buttons = &quot;csv&quot;,
+                                   deferRender = TRUE,
+                                   scroller = TRUE,
+                                   scrollY = 560,
+                                   scrollX = TRUE))
+        },
+        error = function(e) {
+          shinyalert(&quot;Oops!&quot;, conditionMessage(e), type = &quot;error&quot;, closeOnClickOutside = TRUE)
+        })
+      }),
+      server = FALSE
+    )
+    
+    # Update recent queries table
+    reactive_values$queries_table &lt;- add_row(reactive_values$queries_table, 
+                                             Time = format(Sys.time(), &quot;%Y-%m-%d %r&quot;), 
+                                             Query = sql_script())
+    
+    output$recent_queries &lt;- renderDT(
+      datatable(reactive_values$queries_table, options = list(dom = &#39;t&#39;)) %&gt;% 
+        formatStyle(&quot;Query&quot;, color = &quot;red&quot;)
+    )
+  })
+  
+  ## DOWNLOAD SQL SCRIPT -----------------------------------------------------------------------------------------------
+  output$downloadData &lt;- downloadHandler(
+    filename = function() {
+      &quot;Hive.sql&quot;
+    },
+    content = function(file) {
+      write_file(sql_script(), file)
+    }
+  )
+  
+  ## EDITOR THEME ------------------------------------------------------------------------------------------------------
+  observe({
+    updateAceEditor(session,
+                    &quot;code&quot;,
+                    mode = &quot;sql&quot;,
+                    theme = input$editor_theme)
+  })
+  
+  ## CHECK dsna CONNECTION ---------------------------------------------------------------------------------------------
+  observeEvent(input$check_connection, {
+    tryCatch({
+      nrow(dbGetQuery(pool, &quot;show tables&quot;)) &gt;= 1
+      shinyalert(&quot;You&#39;re connected!&quot;, 
+                 &quot;This app is connected to dsna.&quot;, 
+                 type = &quot;success&quot;, 
+                 closeOnClickOutside = TRUE)
+    },
+    error = function(e) {
+      shinyalert(&quot;Oops!&quot;, 
+                 &quot;This app is disconnected to dsna. Please refresh it&quot;, 
+                 type = &quot;error&quot;, 
+                 closeOnClickOutside = TRUE)
+    })
+  })
+}</code></pre>
+<p>And the Ace editor in Shiny looks like: <img src="shinyAce.png" alt="Hive editor in a Shiny app" /></p>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'benjaminchan'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-106572206-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>

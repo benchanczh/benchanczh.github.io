@@ -21,6 +21,24 @@
     </item>
     
     <item>
+      <title>Editor</title>
+      <link>/tags/editor/</link>
+      <pubDate>Mon, 27 Aug 2018 20:43:11 +0000</pubDate>
+      
+      <guid>/tags/editor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hive</title>
+      <link>/tags/hive/</link>
+      <pubDate>Mon, 27 Aug 2018 20:43:11 +0000</pubDate>
+      
+      <guid>/tags/hive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Learnr</title>
       <link>/tags/learnr/</link>
       <pubDate>Sat, 16 Sep 2017 16:25:50 +0000</pubDate>
@@ -57,11 +75,29 @@
     </item>
     
     <item>
+      <title>Shiny</title>
+      <link>/tags/shiny/</link>
+      <pubDate>Mon, 27 Aug 2018 20:43:11 +0000</pubDate>
+      
+      <guid>/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Sieve of Eratosthenes</title>
       <link>/tags/sieve-of-eratosthenes/</link>
       <pubDate>Mon, 25 Sep 2017 18:56:02 +0000</pubDate>
       
       <guid>/tags/sieve-of-eratosthenes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sql</title>
+      <link>/tags/sql/</link>
+      <pubDate>Mon, 27 Aug 2018 20:43:11 +0000</pubDate>
+      
+      <guid>/tags/sql/</guid>
       <description></description>
     </item>
     
