@@ -211,6 +211,3 @@ server <- function(input, output, session) {
   })
 }
 ```
-
-And the Ace editor in Shiny looks like:
-![Hive editor in a Shiny app](images/shinyAce.png)
