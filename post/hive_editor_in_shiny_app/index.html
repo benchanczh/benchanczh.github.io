@@ -164,7 +164,7 @@ library(shinyAce)
 library(shinyalert)
 
 ## CREATE CONNECTION TO dsna BY DSN ------------------------------------------------------------------------------------
-pool &lt;- dbPool(odbc::odbc(), dsn = &quot;HP1-64bit&quot;, Port = 10000)
+pool &lt;- dbPool(odbc::odbc(), dsn = &lt;your_dsn&gt;, Port = 10000)
 
 onStop(function() {
   poolClose(pool)
