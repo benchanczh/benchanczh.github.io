@@ -1,0 +1,82 @@
+---
+title: "Writing pandas data frames to database using SQLAlchemy"
+author: "Benjamin Chan"
+date: 2018-09-08 12:06:08
+categories: ["Pandas data frames to SQL database"]
+tags: ["Python", "pandas", "SQLAlchemy"]
+description: "Writing pandas data frame to database using to_sql() function"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I use Python [*pandas*](https://pandas.pydata.org/) for data wrangling every day. Most of the time the output of pandas data frames are `.csv` files saved in shared drives for business users to do further analyses. The reason why using `.csv` files instead of tables in a database is because most of business users in the bank don't know how to write SQL queries!! I have no idea how they can survive in this data-driven world without even just a bit of these data analysis skills. 
+
+The `to_csv()` function helps us create `.csv` file out of a *pandas* data frame easily. When we want to write a *pandas*
+data frame to a SQL database, we can use [`to_sql()`](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_sql.html).
+
+## Using `to_sql()` with SQLAlchemy
+
+`to_sql()` function requires a database connection which can be created by SQLAlchemy library.
+
+```{python, eval=FALSE, python.reticulate=FALSE}
+import Pandas
+import pyodbc
+from sqlalchemy import create_engine
+import urllib
+
+
+# Create database connection, for example a MS SQL Sever connection
+params = urllib.parse.quote_plus(
+    'DRIVER={your database driver};'
+    'SERVER=<your database server>;'
+    'DATABASE=<your database>;'
+    'Trusted_Connection=yes;'
+)
+
+engine = create_engine(f'mssql+pyodbc:///?odbc_connect={params}')
+
+# Let's say we have a pandas data frame df to be saved in the database
+df.to_sql(
+    name='your_table_name',
+    con=engine,
+    if_exist='replace',  # can be 'append' or 'fail'
+    chuncksize=your_chunk_size,
+    index=False
+)
+```
+
+`to_sql()` also provides a parameter `dtype` that allows users to specifying the datatype for columns. By default it uses
+maximum size of a data type to create a new table which might not be necessary most of the time. We can define the data
+types for all the columns every time when we create a new table but it's painful to do that. A function that maps *pandas* 
+data types to SQL data types will save us a lot of work.
+
+```{python, eval=FALSE, python.reticulate=FALSE}
+from sqlalchemy.types import VARCHAR, Float, INTEGER
+
+
+def auto_dtype(df):
+
+    # SQLAlchemy data types mapping
+    data_types_mapping = {}
+    for k, v in zip(df.columns, df.dtypes):
+        if v == 'object':
+            data_types_mapping[k] = VARCHAR(int(df[k].str.len().max()))
+        elif v == 'float64':
+            data_types_mapping[k] = Float()
+        elif v == 'int64':
+            data_types_mapping[k] = INTEGER()
+
+    return data_types_mapping
+
+
+df.to_sql(
+    name='your_table_name',
+    con=engine,
+    if_exist='replace',  # can be 'append' or 'fail'
+    chuncksize=your_chunk_size,
+    index=False,
+    dtype=auto_dtype(df)
+)
+```

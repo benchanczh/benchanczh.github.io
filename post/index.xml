@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Benjamin&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
-    <lastBuildDate>Mon, 27 Aug 2018 20:43:11 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 08 Sep 2018 12:06:08 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Writing pandas data frames to database using SQLAlchemy</title>
+      <link>/post/pandas_to_sql/</link>
+      <pubDate>Sat, 08 Sep 2018 12:06:08 +0000</pubDate>
+      
+      <guid>/post/pandas_to_sql/</guid>
+      <description>I use Python pandas for data wrangling every day. Most of the time the output of pandas data frames are .csv files saved in shared drives for business users to do further analyses. The reason why using .csv files instead of tables in a database is because most of business users in the bank don’t know how to write SQL queries!! I have no idea how they can survive in this data-driven world without even just a bit of these data analysis skills.</description>
+    </item>
     
     <item>
       <title>Hive Editor in a Shiny app</title>

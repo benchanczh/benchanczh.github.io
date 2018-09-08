@@ -1,0 +1,207 @@
+    <!DOCTYPE html>
+<html lang="en-ca">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Benjamin Chan">
+		<meta name="description" content="Blog Description">
+		<meta name="generator" content="Hugo 0.27" />
+		<title>Writing pandas data frames to database using SQLAlchemy &middot; Benjamin&#39;s Blog</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Benjamin&#39;s Blog" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/post'>Archive</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        Writing pandas data frames to database using SQLAlchemy
+                    </h1>
+                    <h2 class="headline">
+                    Sep 8, 2018 12:06
+                    · 338 words
+                    · 2 minutes read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/python">Python</a>
+                          
+                              <a href="/tags/pandas">pandas</a>
+                          
+                              <a href="/tags/sqlalchemy">SQLAlchemy</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <p>I use Python <a href="https://pandas.pydata.org/"><em>pandas</em></a> for data wrangling every day. Most of the time the output of pandas data frames are <code>.csv</code> files saved in shared drives for business users to do further analyses. The reason why using <code>.csv</code> files instead of tables in a database is because most of business users in the bank don’t know how to write SQL queries!! I have no idea how they can survive in this data-driven world without even just a bit of these data analysis skills.</p>
+<p>The <code>to_csv()</code> function helps us create <code>.csv</code> file out of a <em>pandas</em> data frame easily. When we want to write a <em>pandas</em> data frame to a SQL database, we can use <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_sql.html"><code>to_sql()</code></a>.</p>
+<div id="using-to_sql-with-sqlalchemy" class="section level2">
+<h2>Using <code>to_sql()</code> with SQLAlchemy</h2>
+<p><code>to_sql()</code> function requires a database connection which can be created by SQLAlchemy library.</p>
+<pre class="python"><code>import Pandas
+import pyodbc
+from sqlalchemy import create_engine
+import urllib
+
+
+# Create database connection, for example a MS SQL Sever connection
+params = urllib.parse.quote_plus(
+    &#39;DRIVER={your database driver};&#39;
+    &#39;SERVER=&lt;your database server&gt;;&#39;
+    &#39;DATABASE=&lt;your database&gt;;&#39;
+    &#39;Trusted_Connection=yes;&#39;
+)
+
+engine = create_engine(f&#39;mssql+pyodbc:///?odbc_connect={params}&#39;)
+
+# Let&#39;s say we have a pandas data frame df to be saved in the database
+df.to_sql(
+    name=&#39;your_table_name&#39;,
+    con=engine,
+    if_exist=&#39;replace&#39;,  # can be &#39;append&#39; or &#39;fail&#39;
+    chuncksize=your_chunk_size,
+    index=False
+)</code></pre>
+<p><code>to_sql()</code> also provides a parameter <code>dtype</code> that allows users to specifying the datatype for columns. By default it uses maximum size of a data type to create a new table which might not be necessary most of the time. We can define the data types for all the columns every time when we create a new table but it’s painful to do that. A function that maps <em>pandas</em> data types to SQL data types will save us a lot of work.</p>
+<pre class="python"><code>from sqlalchemy.types import VARCHAR, Float, INTEGER
+
+
+def auto_dtype(df):
+
+    # SQLAlchemy data types mapping
+    data_types_mapping = {}
+    for k, v in zip(df.columns, df.dtypes):
+        if v == &#39;object&#39;:
+            data_types_mapping[k] = VARCHAR(int(df[k].str.len().max()))
+        elif v == &#39;float64&#39;:
+            data_types_mapping[k] = Float()
+        elif v == &#39;int64&#39;:
+            data_types_mapping[k] = INTEGER()
+
+    return data_types_mapping
+
+
+df.to_sql(
+    name=&#39;your_table_name&#39;,
+    con=engine,
+    if_exist=&#39;replace&#39;,  # can be &#39;append&#39; or &#39;fail&#39;
+    chuncksize=your_chunk_size,
+    index=False,
+    dtype=auto_dtype(df)
+)</code></pre>
+</div>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'benjaminchan'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://github.com/benchanczh">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.linkedin.com/in/ben-chan-77309060/">
+        <i class="fa fa-linkedin-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Benjamin Chan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-106572206-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>
