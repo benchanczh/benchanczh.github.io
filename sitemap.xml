@@ -68,13 +68,13 @@
   </url>
   
   <url>
-    <loc>/tags/algorithm/</loc>
+    <loc>/categories/algorithm/</loc>
     <lastmod>2017-09-25T18:56:02+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/algorithm/</loc>
+    <loc>/tags/algorithm/</loc>
     <lastmod>2017-09-25T18:56:02+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -134,13 +134,13 @@
   </url>
   
   <url>
-    <loc>/tags/project_euler/</loc>
+    <loc>/categories/project_euler/</loc>
     <lastmod>2017-10-28T14:42:44+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/project_euler/</loc>
+    <loc>/tags/project_euler/</loc>
     <lastmod>2017-10-28T14:42:44+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -152,14 +152,14 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2017-10-28T14:42:44+00:00</lastmod>
+    <loc>/categories/r/</loc>
+    <lastmod>2017-09-16T16:25:50+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2017-09-16T16:25:50+00:00</lastmod>
+    <loc>/tags/r/</loc>
+    <lastmod>2017-10-28T14:42:44+00:00</lastmod>
     <priority>0</priority>
   </url>
   
